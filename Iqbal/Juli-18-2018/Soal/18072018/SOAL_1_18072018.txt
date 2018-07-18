@@ -1,0 +1,8 @@
+Buatkan Masing Masing CLass Untuk Soal Berikut ini
+
+1. Nenek Sedang Mencarikan Pasangan untuk cucu perempuannya pasangan tersebut harus berumur diatas 27 tahun dan 40 tahun , ganteng atau kaya
+2. Kakek sedang mencarikan Pasangan untuk cucu perempuannya pasangan harus berumsur minimal 30 tahun dan kaya
+3. Ibu, Sedang mencarikan pasangan untuk anak perempuannya , pasangan harus berumur mulai dari 17 dan dibawah 30 tahun, harus kaya dan ganteng
+4. Ayah, Sedang mencarikan pasangan untuk anak perempuannya, perbedaan umur pasangannya maksimal 5 tahun harus kaya atau ganteng
+
+*note ukuran ganteng adalah jika penampilannya 8 ke atas ukuran kaya adalah jika penghasilannya lebih dari 5 juta
