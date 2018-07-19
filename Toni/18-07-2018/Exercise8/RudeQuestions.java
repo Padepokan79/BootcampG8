@@ -1,5 +1,5 @@
 import java.util.*;
-public class ExDelapanDrill{
+public class RudeQuestions{
 	public static void main( String[] args){
 		String name, race;
 		int age;

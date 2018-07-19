@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class ShallowGrandmother{
+public class ExEmpatBelasDrill{
 	public static void main( String[] args){
 		Scanner keyboard = new Scanner(System.in);
 		int age, happy;

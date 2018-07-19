@@ -15,3 +15,6 @@ public class ClubBouncer{
 		}
 	}
 }
+
+//Drill 1 : int wont print because the condition doesnt meet.
+ 

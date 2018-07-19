@@ -27,6 +27,6 @@ public class CreatingVariables{
 		System.out.println("A favorite irrational # is Euler's number: " + e);
 		System.out.println("Hopefully you have more than $" + checking + "!");
 		System.out.println("My name's " + title + " " + firstName + lastName);
-		System.out.println("I have "+ fishCount + " " + fishType + " as big as " + fishSize + "cm. they have " + fishLook + " AF.")
+		System.out.println("I have "+ fishCount + " " + fishType + " as big as " + fishSize + "cm. they have " + fishLook + " AF.");
 	}
 }
