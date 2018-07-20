@@ -1,4 +1,4 @@
-public class ExduaDrill2{
+public class GasolineRecipt{
 	public static void main(String[] args){
 		System.out.println("+--------------------------+");
 		System.out.println("|                          |");
