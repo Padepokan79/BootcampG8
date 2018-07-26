@@ -144,6 +144,6 @@ rules game :
 *PLayer Boleh TIdur atau bergadang
 	- Jika Tidur Stamina + 5 , mood + 5 ; 
 	- Jika Bergadang Stamina -5 , mood - 5 , kemampuan + 2;
- *Jika Uang Player menyentuh 1000$ Player BErhasil Menyelesaikan game
+ *Jika Uang Player menyentuh 1000$ Player Berhasil Menyelesaikan game
  *Game tidak akan selesai selama uang player belum habis atau sampai 1000$ atau player menginputkan kata finish di input manapun;
  *Game Selesai Ketika stamina mencapai 0 ; uang mencapai 0; mood mencapai 0;
