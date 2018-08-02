@@ -1,8 +1,8 @@
 import java.util.*;
 
-public class ArraySlotAccess{
+public class Drill{
 	public static void main(String[] args){
-		int[] arr = new int[3];
+		int[] arr = new int[100];
 		Random rand = new Random(); 
 		
 		//we almost always use a for loop to acess each slot of an array
