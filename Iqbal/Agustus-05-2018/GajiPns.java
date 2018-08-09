@@ -3,6 +3,10 @@ public class GajiPns{
 	public static void main(String[] args) {
 		Scanner input = new Scanner(System.in);
 		int[] umum = {175000 , 180000 , 185000 , 190000};
+		int jumlahTunjanganFungsi = 1350000;
+		int[] struktur = {5500000 , 4375000 , 3250000 , 2025000 , 1260000 , 980000 , 540000 , 490000 , 360000};
+		int[][] jumlahTunjanganPapua = {{200000 , 225000 , 250000 , 275000} , {300000 , 325000 , 350000 , 375000} , {425000 , 45000 , 475000 , 500000} , {525000 , 550000 , 575000 , 600000 , 625000} };
+		int[] taperum = {3000 , 5000 , 7000 , 10000};
 		int[][][] gajiGolongan = {
 									//Golongan1
 									{	/*A*/{1486500 , 1533400 , 1581700 , 1631500 , 1682900 , 1735900 , 1790500 , 1846900 , 1905100 , 1965100 , 2027000 , 2090800 , 2156700 , 2224600} ,
@@ -35,20 +39,22 @@ public class GajiPns{
 
 								};
 								
-		int jumlahAnak = 0 , jumlahKeluarga = 1 ;
-		double  gajiPokok = 0 , tunjanganPasangan = 0 , tunjanganAnak = 0 , tunjanganUmum = 0;
+		int jumlahAnak = 0 , jumlahKeluarga = 1 , hargaBeras =10000;
+		double  gajiPokok = 0 , tunjanganPasangan = 0 , tunjanganAnak = 0 , tunjanganUmum = 0 , tunjanganTambahan = 0 , tunjanganFungsi = 0 , tunjanganStruktur = 0;
+		double tunjanganPapua = 0 , tunjanganPulauTerpencil = 0 , tunjanganLain = 0 , tujanganBulat = 0 , tunjanganBeras = 0 , tunjanganBulat = 0 , tunjanganPajak = 0 ;
 		String punyaPasangan , punyaAnak = " ";
+		String namaTunjanganLain = " ";
 		System.out.println("Nama      : ");
 		String nama = input.nextLine();
-		while(nama.length() > 25 || nama.length() < 1){
-			System.out.println("Nama Terlalu Panjang/kosong ulangi!");	
+		while((nama.length() >= 35 && nama.length() < 1 )|| !nama.matches("[a-zA-Z_ ]+")){
+			System.out.println("Nama Terlalu Panjang/Ada Angka ulangi!");	
 			System.out.println("Nama      : ");
 			nama = input.nextLine();
 		}
 
 		System.out.println("NIP 	  : ");
 		String nip = input.nextLine();
-		while(nip.length() != 18 ){
+		while(nip.length() != 18 || !nip.matches("[0-9]+")){	
 			System.out.println("NIP Salah Ulangi!");
 			System.out.println("NIP 	  : ");
 			nip = input.nextLine();
@@ -60,11 +66,45 @@ public class GajiPns{
 			System.out.println("Golongan  : ");
 			golongan = input.next().toLowerCase();
 		}
+		int golonganKe = Integer.parseInt(golongan.substring(0,1));
+		String huruf = golongan.substring(1);
 
+		int batasMasakerjaAwal = 0 , batasMasakerjaAkhir = 33;
+		if(golonganKe == 1 && huruf.equals("a")){
+			batasMasakerjaAwal= 0;
+			batasMasakerjaAkhir = 27;
+		}
+		else if(golonganKe == 1 && !huruf.equals("a")){
+			batasMasakerjaAwal = 3;
+			batasMasakerjaAkhir=27;
+		}
+		else if(golonganKe == 2 && huruf.equals("a")){
+			batasMasakerjaAwal = 0;
+			batasMasakerjaAkhir = 33;
+		}
+		else if(golonganKe == 2 && !huruf.equals("a")){
+			batasMasakerjaAwal = 3;
+			batasMasakerjaAkhir = 33;
+		}
+		else{
+			batasMasakerjaAwal = 0;
+			batasMasakerjaAkhir = 32;
+		}	
 		System.out.println("Masa Kerja: ");
 		int masaKerja = input.nextInt();
+		
+		while(masaKerja < batasMasakerjaAwal || masaKerja > batasMasakerjaAkhir ){
+			System.out.println("Mungkin Anda Sudah Pensiun Atau Belum pns coba lagi!");
+			System.out.println("Masa Kerja: ");
+			masaKerja = input.nextInt();
+		}
+		
 		System.out.println("Apakah Anda Sudah Menikah ? (y/n)");
 		String pasangan = input.next();
+		while(!pasangan.equals("y") && !pasangan.equals("n")){
+			System.out.println("Jawaban Salah hanya (y/n)");
+			pasangan = input.next();
+		}
 		if(pasangan.equals("y") || pasangan.equals("Y")){
 			punyaPasangan = "y";
 			System.out.println("Punya Berapa anak :");
@@ -78,14 +118,34 @@ public class GajiPns{
 		else{
 			punyaPasangan = "n";
 		}
-		
-	
+		System.out.println("Apakah Anda Pns (Profesi/Jabatan/Umum)");
+		String jawabTunjangan = input.next().toLowerCase();
+		while(!jawabTunjangan.equals("profesi") && !jawabTunjangan.equals("jabatan") &&  !jawabTunjangan.equals("umum")){
+			System.out.println("Jawaban Salah hanya (Profesi/Jabatan/Umum)");
+			jawabTunjangan = input.next().toLowerCase();
+		}
+		if(jawabTunjangan.equals("profesi")){
+			tunjanganFungsi += jumlahTunjanganFungsi ;	
+		}
+		else if(jawabTunjangan.equals("jabatan")){
+			System.out.println("Masukan Golongan Anda (1-9)");
+			int jawabJabatan = input.nextInt();
+			tunjanganStruktur += struktur[(jawabJabatan-1)];
+		}
+		else if(jawabTunjangan.equals("umum")){
+			tunjanganUmum += umum[(golonganKe-1)];
+
+		}
+		else{
+			System.out.println("Jawaban Salah Coba Lagi!");
+		}
+
 		
 
-		int golonganKe = Integer.parseInt(golongan.substring(0,1));
+		
 		int indexGolonganKe = golonganKe - 1;
 		int golonganHuruf = 0 ;
-		String huruf = golongan.substring(1);
+		
 		
 		switch(huruf){
 			case "a" : golonganHuruf = 0;
@@ -176,29 +236,176 @@ public class GajiPns{
 				System.out.println("Tidak Punya anak");
 			}									
 		}
-		if(indexGolonganKe == 0){
-			tunjanganUmum = umum[0];
+		System.out.println("Di Pulau apa Anda Bekerja :");
+		String pulau = input.next().toLowerCase();
+			if(pulau.equals("jawa") || pulau.equals("madura") || pulau.equals("bali")){
+				tunjanganPulauTerpencil=0;
+			}
+			else{
+				tunjanganPulauTerpencil+=gajiPokok;
+			}
+
+			if(pulau.equals("papua")){
+				tunjanganPapua += jumlahTunjanganPapua[indexGolonganKe][golonganHuruf];
+			}
+
+		System.out.println("Apakah ada Tunjangan Lain(y/n)");
+		String jawabanLain = input.next().toLowerCase();
+		while(!jawabanLain.equals("y") && !jawabanLain.equals("n")){
+			System.out.println("Jawaban Salah hanya (y/n)");
+			jawabanLain = input.next();
 		}
-		else if(indexGolonganKe == 1){
-			tunjanganUmum = umum[1];
+		if(jawabanLain.equals("y")){
+			System.out.println("Tunjangan Apa itu :");
+			namaTunjanganLain = input.next();
+			System.out.println("Berapa Jumlahnya");
+			System.out.print("Rp : ");
+			tunjanganLain = input.nextInt();
+			
 		}
-		else if(indexGolonganKe == 2){
-			tunjanganUmum = umum[2];
+		if(jumlahKeluarga >= 4){
+			tunjanganBeras += (hargaBeras*10)*4; 
+		}
+		else if(jumlahKeluarga < 4 && jumlahKeluarga>0){
+			tunjanganBeras += (hargaBeras*10)*jumlahKeluarga;
+		}	
+
+		//Cari Pajak
+		double bruto , neto , netoPertahun ,  biayaJabatan = 0 , biayaPensiun , ptkp = 36000000 , ptkpPerorang = 3000000 , pkp = 0 , pphPertahun = 0, pphPerbulan = 0 ;
+		bruto = gajiPokok+tunjanganPasangan+tunjanganAnak+tunjanganUmum+tunjanganPapua+tunjanganPulauTerpencil+tunjanganStruktur+tunjanganFungsi+tunjanganBeras+tunjanganLain;
+		double biayaJabat = bruto*0.05;
+		if(biayaJabat> 500000){
+			biayaJabatan += 500000;
 		}
 		else{
-			tunjanganUmum = umum[3];
+			biayaJabatan+= biayaJabat;
 		}
+		biayaPensiun = (gajiPokok+tunjanganPasangan+tunjanganAnak)*0.0475;
+		neto = bruto - (biayaJabatan+biayaPensiun);
+		netoPertahun = neto*12;
+		if((jumlahKeluarga-1) >= 4){
+			ptkp += ptkpPerorang*4;
+		}
+		else{
+		   ptkp += (jumlahKeluarga-1)*ptkpPerorang;
+		}
+		double pkpSementara = netoPertahun - ptkp;
+		if(pkpSementara < 0){
+			pkp += 0 ;
+		}
+		else{
+			pkp += pkpSementara;
+		}
+		if(pkp == 0){
+			pphPerbulan= 0 ;
+		}
+		else{
+			pphPertahun += pkp*0.05;
+			pphPerbulan =  pphPertahun/12;
+		}
+		tunjanganPajak += pphPerbulan;
+		double jumlahKotor = gajiPokok+tunjanganPasangan+tunjanganAnak+tunjanganUmum+tunjanganPapua+tunjanganPulauTerpencil+tunjanganStruktur+tunjanganFungsi+tunjanganBeras+tunjanganPajak;
+		double sisa = jumlahKotor-100;
+		while(sisa>=100){
+				sisa -= 100;
+		}
+		tunjanganBulat = 100-sisa;
+		if(jumlahKotor<2000000){
+			tunjanganTambahan = 2000000 - jumlahKotor;
+		}
+		double gajiKotor = jumlahKotor + tunjanganTambahan + tunjanganBulat ;
+		//Pengeluaran
+		double sewaRumah = 0 , jumlahTunggakan = 0 , hutang = 0 , lainLain = 0 , potonganBeras = 0,  potonganPPH , iwp;
+		String namaTunggakan =" " , namaLainLain = " ";
+		System.out.println("Apakah Kamu Sewa Rumah Dinas(y/n)");
+		String rumah = input.next().toLowerCase();
+		while(!rumah.equals("y") && !rumah.equals("n")){
+			System.out.println("Jawaban Salah hanya (y/n)");
+			rumah = input.next();
+		}
+		if(rumah.equals("y")){
+			sewaRumah = 400000;
+		}
+		System.out.println("Apakah Kamu Punya Tunggakan(y/n)");
+		String tunggakan = input.next().toLowerCase();
+		while(!tunggakan.equals("y") && !tunggakan.equals("n")){
+			System.out.println("Jawaban Salah hanya (y/n)");
+			tunggakan = input.next();
+		}
+		if(tunggakan.equals("y")){
+			System.out.println("Tunggakan Apa :");
+			namaTunggakan = input.next();
+			System.out.println("Jumlah Tunggakan :");
+			jumlahTunggakan = input.nextDouble();
+		}
+		System.out.println("Apakah Kamu Punya Utang(y/n)");
+		String jawabanHutang = input.next().toLowerCase();
+		while(!jawabanHutang.equals("y") && !jawabanHutang.equals("n")){
+			System.out.println("Jawaban Salah hanya (y/n)");
+			jawabanHutang = input.next();
+		}
+		if(jawabanHutang.equals("y")){
+			System.out.println("Berapa Jumlah Utang nya :");
+			hutang = input.nextInt();
+		}
+		System.out.println("Apakah Masih ada Potongan lain (Y/N)");
+		String lainlain = input.next().toLowerCase();
+		while(!lainlain.equals("y") && !lainlain.equals("n")){
+			System.out.println("Jawaban Salah hanya (y/n)");
+			lainlain = input.next();
+		}
+		if(lainlain.equals("y")){
+			System.out.println("Potongan apa :");
+			namaLainLain = input.next();
+			System.out.println("Berapa Jumlahnya :");
+			lainLain = input.nextInt();	
+		}
+		System.out.println("apakah Tunjangan Beras menggunakan uang(y/n)");
+		String tunjanganberas = input.next();
+		while(!tunjanganberas.equals("y") && !tunjanganberas.equals("n")){
+			System.out.println("Jawaban Salah hanya (y/n)");
+			tunjanganberas = input.next();
+		}
+		if(tunjanganberas.equals("n")){
+			potonganBeras = tunjanganBeras;
+		}
+		double jumlahTaperum = taperum[indexGolonganKe];
+		potonganPPH = tunjanganPajak ;
+		iwp = 0.1*(gajiPokok+tunjanganAnak+tunjanganPasangan);
 		System.out.println("======================================");
 		System.out.println("====          SELIP GAJI          ====");
 		System.out.println("======================================");
 		System.out.println("NAMA : " + nama.toUpperCase() + " | NIP : "+nip);
 		System.out.println("======================================");
 		System.out.println("Penghasilan :");
-		System.out.println("Gaji Pokok           : Rp. "+gajiPokok);
-		System.out.println("Tunjangan Pasangan   : Rp. "+tunjanganPasangan);
-		System.out.println("Tunjangan Anak       : Rp. "+tunjanganAnak);
-		System.out.println("Tunjangan Umum       : Rp. "+tunjanganUmum);
+		System.out.println("Gaji Pokok             	   : Rp. "+gajiPokok);
+		System.out.println("Tunjangan Pasangan   	   : Rp. "+tunjanganPasangan);
+		System.out.println("Tunjangan Anak       	   : Rp. "+tunjanganAnak);
+		System.out.println("Tunjangan Umum             : Rp. "+tunjanganUmum);
+		System.out.println("Tunjangan Papua 	   : Rp. "+tunjanganPapua);
+		System.out.println("Tunjangan Pulau Terpencil  : Rp. "+tunjanganPulauTerpencil);
+		System.out.println("Tunjangan Struktur 	   : Rp. "+tunjanganStruktur);
+		System.out.println("Tunjangan Fungsi 	   : Rp. "+tunjanganFungsi);
+		System.out.println("Tunjangan Beras 	   : Rp. "+tunjanganBeras);
+		System.out.println("Tunjangan Bulat 	   : Rp. "+tunjanganBulat);
+		System.out.println("Tunjangan Pajak 	   : Rp. "+tunjanganPajak);
+		System.out.println("Tunjangan Tambahan Umum: Rp. "+tunjanganTambahan);
+		System.out.println("Tunjangan Lain("+namaTunjanganLain +"): Rp. "+tunjanganLain);
 		System.out.println("======================================");
-		System.out.println("Jumlah Yang di dapat : Rp. "+(gajiPokok+tunjanganAnak+tunjanganPasangan+tunjanganUmum));
+		System.out.println("Jumlah Penghasilan Kotor : Rp. "+gajiKotor);
+		System.out.println("Pengeluaran :");
+		System.out.println("Potongan Beras 			   : Rp. "+potonganBeras);
+		System.out.println("Potongan IWP 			   : Rp. "+iwp);
+		System.out.println("Potongan PPH 			   : Rp. "+potonganPPH);
+		System.out.println("Sewa Rumah 			   : Rp. "+sewaRumah);
+		System.out.println("Tunggakan("+namaTunggakan+")	   		 : Rp. "+jumlahTunggakan );
+		System.out.println("Utang				   : Rp. "+hutang);
+		System.out.println("Potongan Lain("+namaLainLain+")		    : Rp. "+lainLain);
+		System.out.println("Taperum 			   : Rp. "+jumlahTaperum);
+		double jumlahPotongan = potonganBeras+iwp+potonganPPH+sewaRumah+jumlahTunggakan+hutang+jumlahTaperum;
+		System.out.println("Jumlah Potongan 	  	   : Rp. "+jumlahPotongan);
+		double gajiBersih = gajiKotor - jumlahPotongan;
+		System.out.println("======================================");
+		System.out.println("Gaji Yang Di Terima Rp. "+gajiBersih);
 	}
-}	
+}		
