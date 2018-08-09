@@ -100,6 +100,7 @@ public class GajiPNS{
 
 
 		if (mkg >= 0 && golongan.matches("(.*)/(.*)")) {
+
 			for (int kenaikan = (mkg/2); kenaikan > 0; kenaikan--) {
 				net += (net*315)/10000;
 			}
