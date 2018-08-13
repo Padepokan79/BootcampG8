@@ -1,0 +1,149 @@
+David adalah seorang karyawan di sebuah perusahaan teknologi, gaji perbulanya setiap tahun bertambah sebanyak 10 persen dari gaji awalnya yaitu 3.000.000
+jika david mulai bekerja pada tahun 2014, berapakah uang yang david dapatkan pada tahun 2026;
+
+Buatlah sebuah kertas gunting batu 
+
+* Permainan terdiri dari 1 Player & 1 Computer
+* Player dan Computer memulai dengan 100 HP
+* player dan Computer memiliki satu kesempatan untuk menentukan Tipe serangan 
+  (K = Kertas, G = Gunting, B = Batu)
+* Dalam setiap Ronde player akan memiliki 10 'Power'
+* Setiap player menentukan banyaknya 'Power' yang ingin dikeluarkan dalam seranganya (2-10);
+				(Sisa 'Power' yang tidak digunakan akan menjadi 'Defense')
+* Jika serangan berhasil maka musuh akan mendapatkan 'Damage' dikurangi 50% dari Perisai yang ia miliki
+	Contoh : jika 'Damage' = 9 dan 'Defense' musuh = 4, maka HP musuh akan berkurang sebanyak 7 poin 
+	
+* Player yang melancarkan serangan di atas 6 poin akan mendapat 'Critical' (Damage bertambah 2 poin);
+* Player yang dapat menahan serangan keseluruhan tanpa mendapat Damage akan diberikan bonus HP sebanya 2 poin
+* Player yang dapat menghabiskan HP musuh menjadi pemenang.
+
+Contoh Tampilan :
+
+==============================
+	      KGB Battle
+==============================
+            Round 1
+==============================
+
+Computer memilih tipe Serangan ... (B)
+Attack = 6
+Deffense = 4
+
+Pilih tipe Serangan anda (K/G/B) K
+Tentukan Attack (2-10) 7
+Deffense = 3
+
+==============================
+	    Battle Start !
+==============================
+Batu vs Kertas
+Player wins with Kertas
+Player give 7 Damage
+Computer use Deffense (Damage -2)
+Computer HP -5
+==============================
+	     Battle End !
+==============================
+Player HP : 100
+Computer HP : 95
+
+==============================
+            Round 2
+==============================
+
+Computer memilih tipe Serangan ... (G)
+Attack = 10
+Deffense = 4
+
+Pilih tipe Serangan anda (K/G/B) K
+Tentukan Attack (2-10) 8
+Deffense = 2
+
+==============================
+	    Battle Start !
+==============================
+Gunting vs Kertas
+Computer wins with Gunting
+Computer Deal 10 Damage
+Player use Deffense (Damage -2)
+Computer Deal Critical Attack, Damage Increase +2
+Player HP -10
+==============================
+	     Battle End !
+==============================
+Player HP : 90;
+Computer HP : 95;
+
+
+
+1.) Buat program belanja jika pengunjung belanja lebih dari 100rb maka akan mendapatkan satu buah payung.
+Output :
+-Total belanja : 125.000
+Selamat anda mendapat payung
+-Total belanja : 95.000
+Jika anda belanja lebih dari 100.000, anda akan mendapatkan payung cantik
+
+2.) program transkrip nilai
+Jika nilai mahasiswa 
+kurang dari 50 maka dinyatakan tidak lulus dan mendapat nilai E, 
+jika nilai lebih dari 50 - 65 maka dinyatakan lulus & mendapat nilai D, 
+jika nilai lebih dari 65 - 75 maka dinyatakan lulus & mendapat nilai C, 
+jika nilai lebih dari 75 - 85 maka dinyatakan lulus & mendapat nilai B,
+jika nilai lebih dari 85 - 100 maka dinyatakan lulus & mendapat nilai A
+Output :
+Nama : Brian
+Nilai : 95
+Selamat Brian, anda dinyatakan LULUS & mendapat nilai A
+
+3.) Buat program deret Fibonacci  
+Output : 
+Masukan jumlah deret fibonacci : 9
+Fibonacci : 0, 1, 1, 2, 3, 5, 8, 13, 21
+4.)Buat program faktorial 
+Output :
+Masukan angka faktorial : 0
+Faktorial dari 0 adalah 1
+Masukan angka faktorial : 1
+Faktorial dari 1 adalah 1
+Masukan angka faktorial : 2
+Faktorial dari 2 adalah 2
+Masukan angka faktorial : 3
+Faktorial dari 3 adalah 6
+Masukan angka faktorial : 4
+Faktorial dari 4 adalah 24
+Masukan angka faktorial : 5
+Faktorial dari 5 adalah 120
+Masukan angka faktorial : 6
+Faktorial dari 6 adalah 720
+Masukan angka faktorial : 7
+Faktorial dari 7 adalah 5040
+
+No.1
+Sebuah Perusahaan Mainan berhasil membuat 1500-2000 mainan setiap harinya tetapi tidak menentu. 
+modal setiap 1 mainan tersebut adalah Rp 5000 Dan mainan tersebut dijual dengan harga 6500 . 
+dalam satu hari perusahaan tersebut dapat menjual 50-100 % dari yang ada pada hari itu dan sisa nya akan dijual keesokan harinya . 
+berapakah sisa barang & saldo perusahaan pada hari ke 7, apakah perusahaan untung atau rugi.
+Saldo awal Perusahaan : Rp. 13.000.000
+
+No.2
+Permainan Simulasi : 
+Sebuah perusaahan game membuat game simulasi hidup dengan ketentuan awal ;
+* Stamina = 100 ;
+* Uang Awal = 100$ ;
+* kemampuan = 0;
+* mood = 100 ; 
+* Gaji Player = 15$ + kemampuan ;
+rules game :
+
+*Setiap Hari Player Wajib Memilih Akan Belajar / Bekerja / Hiburan ;
+ -Jika Belajar : Stamina Player akan Berkurang sebesar 10  , Uang Player Berkurang 5$ untuk biaya belajar , Kemampuan Bertambah 5 , mood berkurang 3
+ -Jika Bekerja : Stamina Player Akan berkurang sebesar 20  , Uang Player Bertambah dari gaji  , mood berkurang 5
+ -Jika Berlibur : Stamina Bertambah Sebesar 50 , Uang Player berkurang 40$ , kemampuan bertambah 2 , mood bertambah 15
+*Setiap Hari bebas memilih makan 1-3 kali
+ -Setiap Makan : Stamina Bertambah 3 , mood bertambah 2 , uang berkurang 2$ ; 
+*PLayer Boleh TIdur atau bergadang
+	- Jika Tidur Stamina + 5 , mood + 5 ; 
+	- Jika Bergadang Stamina -5 , mood - 5 , kemampuan + 2;
+ *Jika Uang Player menyentuh 1000$ Player Berhasil Menyelesaikan game
+ *Game tidak akan selesai selama uang player belum habis atau sampai 1000$ atau player menginputkan kata finish di input manapun;
+ *Game Selesai Ketika stamina mencapai 0 ; uang mencapai 0; mood mencapai 0;

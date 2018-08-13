@@ -1,0 +1,151 @@
+1.Make a program for user who want printed odd number.
+
+Enter Start :
+2
+
+End Start :
+10
+
+Result 
+3
+5
+7
+9
+=====================================================
+
+
+2.Make a program for user who want printed even number.
+
+Enter Start :
+2
+
+End Start :
+10
+
+Result 
+2
+4
+6
+============================================================================
+
+
+3.No HP Berdasarkan FengShui
+
+0 khusus, special, langka,
+1 satu, satu-satunya, diri sendiri,
+2 mudah, gampang, tidak sulit
+3 menemukan, mendapatkan, hidup,
+4 mati, miskin, susah,
+5 Tidak akan, tidak pernah, tidak bisa
+6 Menuju, akan
+7 Tepat, hoki, atau bisa disebut juga ketuhanan
+8 Makmur
+9 Sukses
+
+Maksukan No HP anda:
+089686446002
+
+0 khusus, special, langka,
+8 Makmur
+9 Sukses
+6 Menuju, akan
+8 Makmur
+6 Menuju, akan
+4 mati, miskin, susah,
+4 mati, miskin, susah,
+6 Menuju, akan
+0 khusus, special, langka,
+0 khusus, special, langka,
+2 mudah, gampang, tidak sulit
+=============================================================================
+
+
+4.-Buatlah program untuk menampilkan bilangan prima hingga batas yg ditentukan. Contoh :
+        Batas : 20
+        2 3 5 7 11 13 17 19
+=============================================================================
+
+
+5.-Buatlah program untuk menampilkan kalimat dalam bentuk segitiga hingga batas segitiga yg ditentukan. Contoh :
+        Batas segitiga : 10
+        Kalimat : Komandan Bersatu
+
+                 K
+                o m
+               a n d
+              a n   B
+             e r s a t
+            u
+=============================================================================
+
+
+6.-buatlah gambar seperti di bawah ini menggunakan looping dan if statement
+     *
+    * *
+   *   * 
+  *     *
+ *       *
+  *     * 
+   *   *
+    * *
+     *
+=============================================================================
+
+
+7.Buatlah program untuk menampilkan isi array dalam bentuk persegi seperti berikut, isi array random (0-9), panjang array 9. Contoh :
+	7 4 9
+	3 0 7
+	6 4 9
+=============================================================================
+
+
+8.Buatlah array bilFibonacci yang berisikan barisan bilangan fibonacci dari 1 - 1000.
+   Dari array tersebut:
+ 	- copy bilangan prima ke sebuah array baru, bilPrima.
+   	- copy bilangan yang habis bagi ke array baru lainnya, bilHabisBagi.
+   Kemudian tampilkan ketiga array tersebut.
+
+Output:
+
+   Bilangan fibonacci:
+   1 1 2 3 5 8 13 21 34 55 89 144 233 377 610 987
+
+   Bilangan Prima:
+   2 3 5 13 89 233
+
+   Selain Bilangan Prima:
+   1 1 8 21 34 55 144 377 610 987
+=============================================================================
+
+
+9.buat sebuah tampilkan # membentuk sebuah tangga, seperti contoh berikut: 
+
+contoh 1:
+input angka : 5  // di input user
+
+    #
+   ##
+  ###
+ ####
+#####
+
+contoh 2:
+input angka : 3  // di input user
+
+  #
+ ##
+###
+==============================================================================
+
+
+10.Original Array : {0,0,80,49,0,13,57,0,0,61,0,72,0,34,26}
+
+urutkan dari kecil ke besar dan simpan angka 0 di akhir array
+
+hasil Array : 13, 26, 34, 49, 57, 61, 72, 80, 0, 0, 0, 0, 0, 0, 0
+==============================================================================
+Buatlah program pengecekkan jawaban siswa Roni dan Dino yang benar dan tampilkan nilainya (banyak jawaban benar/jumlah jawaban*100)!
+String[] jawaban = {"A", "C", "B", "D", "C", "D", "B", "B", "A", "A"};
+String[] Roni = {"B", "D", "B", "D", "C", "D", "B", "B", "D", "A"};
+String[] Dino = {"A", "D", "B", "D", "C", "D", "A", "B", "D", "A"};
+==============================================================================
