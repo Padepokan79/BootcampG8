@@ -18,6 +18,10 @@ public class SPPNS{
 		boolean terpencil = false, papua = false, sewaRumah = false;
 		String nama, nip, menikah, answer, jenisJabatan, nativeGolongan, hutang="", tunjanganLain="", potonganLain="";
 
+
+
+		/*  User Input  */
+
 		// Nama
 		System.out.print("Nama : ");
 		nama = input.nextLine();
@@ -156,17 +160,17 @@ public class SPPNS{
 		for (int i=0; i < tunjangan.length; i++) {
 			pendapatan[1] += tunjangan[i];
 		}
+		pendapatan[1] += pembulatan(100, pendapatan[1]);
 
 		potongan[1] = percentage(10.0, (pendapatan[0] + tunjangan[3]+ tunjangan[4])); // IWP
 		potongan[2] = findPPH(findPKP(pendapatan, tunjangan, istri+anak)); // PPH
 		if(sewaRumah) potongan[3] = 400000; // Sewa Rumah
 		potongan[7] = taperum[golongan[0]]; // Taperum
 
-		pendapatan[2] = pendapatan[1]; // Gaji Bersih
+		pendapatan[2] = pendapatan[1] + potongan[2]; // Gaji Bersih
 		for (int i=0; i < potongan.length; i++) {
 			pendapatan[2] -= potongan[i];
 		}
-		pendapatan[2] += potongan[2];
 
 		for (int i=0; i < potongan.length; i++) {
 			totpot += potongan[i];
@@ -186,13 +190,16 @@ public class SPPNS{
 		System.out.println("T. P terpencil\t: "+tunjangan[6]);
 		System.out.println("T. Struktural \t: "+tunjangan[1]);
 		System.out.println("T. Fungsional \t: "+tunjangan[2]);
+		if (pendapatan[1] < 2000000){
+			System.out.println("T. T.Umum\t: "+(2000000 - pendapatan[1]));
+			pendapatan[1] = 2000000;
+		}
 		System.out.println("T. Lain \t: ");
 		if (tunjangan[8] != 0) System.out.println(" + "+tunjanganLain+" \t: "+tunjangan[8]); 
 		System.out.println("T. Bulat \t: "+pembulatan(100, pendapatan[1]));
 		System.out.println("T. Beras \t: "+tunjangan[7]);
-		System.out.println("T. Pajak \t: "+potongan[1]);
+		System.out.println("T. Pajak \t: "+potongan[2]);
 		System.out.println("----------------------------------------");
-		pendapatan[1] += pembulatan(100, pendapatan[1]);
 		System.out.println("Jumlah Kotor\t:"+pendapatan[1]);
 		System.out.println("----------------------------------------");
 		System.out.println("Pot. Beras \t: "+potongan[0]);
@@ -203,7 +210,7 @@ public class SPPNS{
 		if (potongan[4] != 0) System.out.println(" + "+hutang+" \t: "+potongan[4]); 
 		System.out.println("Pot. Lain \t: ");
 		if (potongan[5] != 0) System.out.println(" + "+tunjanganLain+" \t: "+potongan[5]); 
-		System.out.println("Taperum \t: "+potongan[6]);
+		System.out.println("Taperum \t: "+potongan[7]);
 		System.out.println("----------------------------------------");
 		System.out.println("Jumlah potongan\t:"+totpot);
 		pendapatan[2] += pembulatan(100, pendapatan[2]);

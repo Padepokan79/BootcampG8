@@ -1,0 +1,62 @@
+Case 1 :
+
+Nama		: Dona donna
+NISN		: 123131
+Golongan	: II/b
+MKG			: 5
+Lokasi		: Jawa
+Jabatan		: Struktural
+Eselon		: 3
+Status		: Menikah
+Anak		: 2
+
+Gaji Pokok	: 2.169.500
+T. Pasangan	:   216.950
+T. Anak		:	 86.780
+T. Umum		:   	  0
+T.ta Umum	:		  0
+T. Papua	:		  0
+T. Terpencil:		  0
+T. Struktur	: 1.260.000
+T. Fungsi	:		  0
+T. Lain		:		  0
+T. Bulat	: 	 	 70
+T. Beras	: 	400.000
+-----------------------
+Gaji Kotor	: 4.133.300
+
+IWP			:   247.323
+Pajak/Bulan	: 	 2954.8
+
+
+Case 2 :
+
+Nama		: Farhan Mumun
+NISN		: 123131
+Golongan	: III/c
+MKG			: 15
+Lokasi		: Timor timor
+Jabatan		: Fungsional
+Eselon		: 
+Status		: Menikah
+Anak		: 1
+
+Gaji Pokok	: 3.316.000
+T. Pasangan	:   331.600
+T. Anak		:	 66.320
+T. Umum		:   	  0
+T.ta Umum	:		  0
+T. Papua	:		  0
+T. Terpencil: 3.316.500
+T. Struktur	: 		  0
+T. Fungsi	: 1.350.000
+T. Lain		:		  0
+T. Bulat	: 	 	 80
+T. Beras	: 	300.000
+-----------------------
+Gaji Kotor	: 8.680.000
+
+IWP			:   371.392
+Pajak/Bulan	: 	228.475
+-----------------------
+Gaji Bersih	: 8.080.133
