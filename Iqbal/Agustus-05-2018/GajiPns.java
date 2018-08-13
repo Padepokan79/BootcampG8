@@ -44,14 +44,18 @@ public class GajiPns{
 		double tunjanganPapua = 0 , tunjanganPulauTerpencil = 0 , tunjanganLain = 0 , tujanganBulat = 0 , tunjanganBeras = 0 , tunjanganBulat = 0 , tunjanganPajak = 0 ;
 		String punyaPasangan , punyaAnak = " ";
 		String namaTunjanganLain = " ";
-		System.out.println("Nama      : ");
+		double sewaRumah = 0 , jumlahTunggakan = 0 , hutang = 0 , lainLain = 0 , potonganBeras = 0,  potonganPPH , iwp;
+		String namaTunggakan =" " , namaLainLain = " ";
+
+		// Input Nama & Validasi
+		System.out.println("Nama      : ");		  
 		String nama = input.nextLine();
-		while((nama.length() >= 35 && nama.length() < 1 )|| !nama.matches("[a-zA-Z_ ]+")){
+ 		while((nama.length() >= 35 && nama.length() < 1 )|| !nama.matches("[a-zA-Z_ ]+")){
 			System.out.println("Nama Terlalu Panjang/Ada Angka ulangi!");	
 			System.out.println("Nama      : ");
 			nama = input.nextLine();
 		}
-
+		// Input Nip & Validasi
 		System.out.println("NIP 	  : ");
 		String nip = input.nextLine();
 		while(nip.length() != 18 || !nip.matches("[0-9]+")){	
@@ -59,6 +63,7 @@ public class GajiPns{
 			System.out.println("NIP 	  : ");
 			nip = input.nextLine();
 		}
+		// Input Golongan & Validasi
 		System.out.println("Golongan  : ");
 		String golongan = input.next().toLowerCase();
 		while(!golongan.equals("1a") && !golongan.equals("1b") && !golongan.equals("1c") && !golongan.equals("1d") && !golongan.equals("2a") && !golongan.equals("2b") && !golongan.equals("2c") && !golongan.equals("2d") && !golongan.equals("3a") && !golongan.equals("3b") && !golongan.equals("3c") && !golongan.equals("3d") && !golongan.equals("4a") && !golongan.equals("4b") && !golongan.equals("4c") && !golongan.equals("4d") && !golongan.equals("4e")){
@@ -68,7 +73,7 @@ public class GajiPns{
 		}
 		int golonganKe = Integer.parseInt(golongan.substring(0,1));
 		String huruf = golongan.substring(1);
-
+		// Input Masa Kerja & Penentuan Batas Masa Kerja
 		int batasMasakerjaAwal = 0 , batasMasakerjaAkhir = 33;
 		if(golonganKe == 1 && huruf.equals("a")){
 			batasMasakerjaAwal= 0;
@@ -99,25 +104,23 @@ public class GajiPns{
 			masaKerja = input.nextInt();
 		}
 		
+		// Input & Validasi Menikah
 		System.out.println("Apakah Anda Sudah Menikah ? (y/n)");
 		String pasangan = input.next();
 		while(!pasangan.equals("y") && !pasangan.equals("n")){
 			System.out.println("Jawaban Salah hanya (y/n)");
 			pasangan = input.next();
 		}
-		if(pasangan.equals("y") || pasangan.equals("Y")){
-			punyaPasangan = "y";
-			System.out.println("Punya Berapa anak :");
-			int anak = input.nextInt();
-			if(anak != 0){
-				punyaAnak = "y";
-				jumlahAnak += anak ;
-				jumlahKeluarga += anak;
-			}
+		// Input Punya anak
+		System.out.println("Punya Berapa anak :");
+		String anaku = input.next();
+		while(!anaku.matches("[0-9]+")){	
+			System.out.println("Kamu Gila Ulangi!!");
+			System.out.println("Jumlah Anak 	 : ");
+			anaku = input.next();
 		}
-		else{
-			punyaPasangan = "n";
-		}
+		int anak = Integer.parseInt(anaku);
+		// Input & Validasi Jenis Pns
 		System.out.println("Apakah Anda Pns (Profesi/Jabatan/Umum)");
 		String jawabTunjangan = input.next().toLowerCase();
 		while(!jawabTunjangan.equals("profesi") && !jawabTunjangan.equals("jabatan") &&  !jawabTunjangan.equals("umum")){
@@ -139,14 +142,104 @@ public class GajiPns{
 		else{
 			System.out.println("Jawaban Salah Coba Lagi!");
 		}
+		// Input Pulau
+		System.out.println("Di Pulau apa Anda Bekerja :");
+		String pulau = input.next().toLowerCase();
 
-		
+		// Input dan Validasi Tunjangan
+		System.out.println("Apakah ada Tunjangan Lain(y/n)");
+		String jawabanLain = input.next().toLowerCase();
+		while(!jawabanLain.equals("y") && !jawabanLain.equals("n")){
+			System.out.println("Jawaban Salah hanya (y/n)");
+			jawabanLain = input.next();
+		}
+		if(jawabanLain.equals("y")){
+			System.out.println("Tunjangan Apa itu :");
+			namaTunjanganLain = input.next();
+			System.out.println("Berapa Jumlahnya");
+			System.out.print("Rp : ");
+			tunjanganLain = input.nextInt();
+			
+		}
 
+		// Input dan Validasi Rumah Dinas
+		System.out.println("Apakah Kamu Sewa Rumah Dinas(y/n)");
+		String rumah = input.next().toLowerCase();
+		while(!rumah.equals("y") && !rumah.equals("n")){
+			System.out.println("Jawaban Salah hanya (y/n)");
+			rumah = input.next();
+		}
+
+		// Input dan Validasi tunggakan
+		System.out.println("Apakah Kamu Punya Tunggakan(y/n)");
+		String tunggakan = input.next().toLowerCase();
+		while(!tunggakan.equals("y") && !tunggakan.equals("n")){
+			System.out.println("Jawaban Salah hanya (y/n)");
+			tunggakan = input.next();
+		}
+		if(tunggakan.equals("y")){
+			System.out.println("Tunggakan Apa :");
+			namaTunggakan = input.next();
+			System.out.println("Jumlah Tunggakan :");
+			jumlahTunggakan = input.nextDouble();
+		}
+
+		// Input dan Validasi Utang
+		System.out.println("Apakah Kamu Punya Utang(y/n)");
+		String jawabanHutang = input.next().toLowerCase();
+		while(!jawabanHutang.equals("y") && !jawabanHutang.equals("n")){
+			System.out.println("Jawaban Salah hanya (y/n)");
+			jawabanHutang = input.next();
+		}
+		if(jawabanHutang.equals("y")){
+			System.out.println("Berapa Jumlah Utang nya :");
+			hutang = input.nextInt();
+		}
+
+		// Input dan Validasi Potongan Lain
+		System.out.println("Apakah Masih ada Potongan lain (Y/N)");
+		String lainlain = input.next().toLowerCase();
+		while(!lainlain.equals("y") && !lainlain.equals("n")){
+			System.out.println("Jawaban Salah hanya (y/n)");
+			lainlain = input.next();
+		}
+		if(lainlain.equals("y")){
+			System.out.println("Potongan apa :");
+			namaLainLain = input.next();
+			System.out.println("Berapa Jumlahnya :");
+			lainLain = input.nextInt();	
+		}
+
+		//Tunjangan Beras Input & Validasi
+		System.out.println("apakah Tunjangan Beras menggunakan uang(y/n)");
+		String tunjanganberas = input.next();
+		while(!tunjanganberas.equals("y") && !tunjanganberas.equals("n")){
+			System.out.println("Jawaban Salah hanya (y/n)");
+			tunjanganberas = input.next();
+		}
+
+
+		// Fungsi Penentuan Pasangan
+		if(pasangan.equals("y") || pasangan.equals("Y")){
+			punyaPasangan = "y";
+			
+		}
+		else{
+			punyaPasangan = "n";
+		}
+		//Fungsi Jumlah Anak
+		if(anak != 0){
+				punyaAnak = "y";
+				jumlahAnak += anak ;
+				jumlahKeluarga += anak;
+		}
 		
+		
+		// Mencari Index Golongan Untuk Gaji Pokok				
 		int indexGolonganKe = golonganKe - 1;
 		int golonganHuruf = 0 ;
 		
-		
+		//Penentuan Index
 		switch(huruf){
 			case "a" : golonganHuruf = 0;
 					   break ;
@@ -219,12 +312,14 @@ public class GajiPns{
 		}
 			/*
 		*/	
-
+		//Pencarian Gaji Pokok dengan index yang sudah dicari	
 		gajiPokok = gajiGolongan[indexGolonganKe][golonganHuruf][masaKerja];
+		//Mencari Tunjangan Pasangan
 		if(punyaPasangan.equals("y")){
 			tunjanganPasangan = gajiPokok*0.10;
 			jumlahKeluarga++;
 		}
+		//Mencari Tunjangan Anak
 		if(punyaAnak.equals("y")){
 			if(jumlahAnak == 1){
 				tunjanganAnak = gajiPokok*0.02;
@@ -236,8 +331,7 @@ public class GajiPns{
 				System.out.println("Tidak Punya anak");
 			}									
 		}
-		System.out.println("Di Pulau apa Anda Bekerja :");
-		String pulau = input.next().toLowerCase();
+		//Mencari Tunjangan Pulau
 			if(pulau.equals("jawa") || pulau.equals("madura") || pulau.equals("bali")){
 				tunjanganPulauTerpencil=0;
 			}
@@ -249,20 +343,8 @@ public class GajiPns{
 				tunjanganPapua += jumlahTunjanganPapua[indexGolonganKe][golonganHuruf];
 			}
 
-		System.out.println("Apakah ada Tunjangan Lain(y/n)");
-		String jawabanLain = input.next().toLowerCase();
-		while(!jawabanLain.equals("y") && !jawabanLain.equals("n")){
-			System.out.println("Jawaban Salah hanya (y/n)");
-			jawabanLain = input.next();
-		}
-		if(jawabanLain.equals("y")){
-			System.out.println("Tunjangan Apa itu :");
-			namaTunjanganLain = input.next();
-			System.out.println("Berapa Jumlahnya");
-			System.out.print("Rp : ");
-			tunjanganLain = input.nextInt();
-			
-		}
+		
+		// Mencari Tunjangan Keluarga
 		if(jumlahKeluarga >= 4){
 			tunjanganBeras += (hargaBeras*10)*4; 
 		}
@@ -304,7 +386,9 @@ public class GajiPns{
 			pphPerbulan =  pphPertahun/12;
 		}
 		tunjanganPajak += pphPerbulan;
+		//Jumlh Kotor
 		double jumlahKotor = gajiPokok+tunjanganPasangan+tunjanganAnak+tunjanganUmum+tunjanganPapua+tunjanganPulauTerpencil+tunjanganStruktur+tunjanganFungsi+tunjanganBeras+tunjanganPajak;
+		//Cari tunjangan Bulat
 		double sisa = jumlahKotor-100;
 		while(sisa>=100){
 				sisa -= 100;
@@ -315,57 +399,11 @@ public class GajiPns{
 		}
 		double gajiKotor = jumlahKotor + tunjanganTambahan + tunjanganBulat ;
 		//Pengeluaran
-		double sewaRumah = 0 , jumlahTunggakan = 0 , hutang = 0 , lainLain = 0 , potonganBeras = 0,  potonganPPH , iwp;
-		String namaTunggakan =" " , namaLainLain = " ";
-		System.out.println("Apakah Kamu Sewa Rumah Dinas(y/n)");
-		String rumah = input.next().toLowerCase();
-		while(!rumah.equals("y") && !rumah.equals("n")){
-			System.out.println("Jawaban Salah hanya (y/n)");
-			rumah = input.next();
-		}
+		//Sewa Rumah Atau Tidak
 		if(rumah.equals("y")){
 			sewaRumah = 400000;
-		}
-		System.out.println("Apakah Kamu Punya Tunggakan(y/n)");
-		String tunggakan = input.next().toLowerCase();
-		while(!tunggakan.equals("y") && !tunggakan.equals("n")){
-			System.out.println("Jawaban Salah hanya (y/n)");
-			tunggakan = input.next();
-		}
-		if(tunggakan.equals("y")){
-			System.out.println("Tunggakan Apa :");
-			namaTunggakan = input.next();
-			System.out.println("Jumlah Tunggakan :");
-			jumlahTunggakan = input.nextDouble();
-		}
-		System.out.println("Apakah Kamu Punya Utang(y/n)");
-		String jawabanHutang = input.next().toLowerCase();
-		while(!jawabanHutang.equals("y") && !jawabanHutang.equals("n")){
-			System.out.println("Jawaban Salah hanya (y/n)");
-			jawabanHutang = input.next();
-		}
-		if(jawabanHutang.equals("y")){
-			System.out.println("Berapa Jumlah Utang nya :");
-			hutang = input.nextInt();
-		}
-		System.out.println("Apakah Masih ada Potongan lain (Y/N)");
-		String lainlain = input.next().toLowerCase();
-		while(!lainlain.equals("y") && !lainlain.equals("n")){
-			System.out.println("Jawaban Salah hanya (y/n)");
-			lainlain = input.next();
-		}
-		if(lainlain.equals("y")){
-			System.out.println("Potongan apa :");
-			namaLainLain = input.next();
-			System.out.println("Berapa Jumlahnya :");
-			lainLain = input.nextInt();	
-		}
-		System.out.println("apakah Tunjangan Beras menggunakan uang(y/n)");
-		String tunjanganberas = input.next();
-		while(!tunjanganberas.equals("y") && !tunjanganberas.equals("n")){
-			System.out.println("Jawaban Salah hanya (y/n)");
-			tunjanganberas = input.next();
-		}
+		}		
+		//Beras atau uang
 		if(tunjanganberas.equals("n")){
 			potonganBeras = tunjanganBeras;
 		}
