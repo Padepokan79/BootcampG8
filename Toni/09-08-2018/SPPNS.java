@@ -18,45 +18,58 @@ public class SPPNS{
 		boolean terpencil = false, papua = false, sewaRumah = false;
 		String nama, nip, menikah, answer, jenisJabatan, nativeGolongan, hutang="", tunjanganLain="", potonganLain="";
 
+
+
+		/*  User Input  */
+
 		// Nama
+		do{
 		System.out.print("Nama : ");
 		nama = input.nextLine();
+		if (!nama.matches("[a-zA-Z_ ]+")) System.out.println("Invalid Nama !!");
+	}while(!nama.matches("[a-zA-Z_ ]+"));
+
 		if (nama.length() > 35) nama = nama.substring(0, 35);
 		
 		// NIP
 		do{
 			System.out.print("NIP : ");
 			nip = input.nextLine();
-			if (!isNumber(nip)) System.out.println("Invalid NIP !!");
-		}while(!isNumber(nip));
+			if (!nip.matches("[0-9]+")) System.out.println("Invalid NIP !!");
+		}while(!nip.matches("[0-9]+"));
 
 		// Golongan
 		do{
 			System.out.print("Golongan (I/a): ");
-			answer = input.nextLine();
-			if (!answer.matches("(.*)/(.*)")) System.out.println("Invalid Golongan !!");
-		}while(!answer.matches("(.*)/(.*)"));
-		golongan = parseGolongan(answer);
+			answer = input.nextLine().toLowerCase();
+			golongan = parseGolongan(answer);
+			if (!answer.matches("(.*)/(.*)") || golongan[0] == 9 || golongan[1] == 9) System.out.println("Invalid Golongan !!");
+
+		}while(!answer.matches("(.*)/(.*)") || golongan[0] == 9 || golongan[1] == 9);
 		nativeGolongan = answer;
 
 		// Masa Kerja Golongan 
 		do{
 			System.out.print("Masa Kerja Golongan : ");
 			answer = input.nextLine();
-			if (!isNumber(answer)) System.out.println("Invalid MKG !!");
+			if (!isNumber(answer)) {System.out.println("Invalid MKG !!");}
+			else if((golongan[0] == 0 || golongan[0] == 1) && (golongan[1] > 0) && Integer.parseInt(answer) < 3){
+				System.out.println("Invalid MKG !!");
+				answer = "salah";
+			}
 		}while(!isNumber(answer));
 		mkg = Integer.parseInt(answer);
 
 		// Lokasi Dinas
 		System.out.print("Masukan Lokasi Dinas : ");
-		answer = input.nextLine();
+		answer = input.nextLine().toLowerCase();
 		if (!answer.equals("jawa") && !answer.equals("bali") && !answer.equals( "manado") && !answer.equals("sumatera")) terpencil = true;
 		if (answer.equals("papua")) papua = true;
 
 		// Rumah Dinas
 		do{
 			System.out.print("Apakah anda tinggal di rumah dinas (y/n) ");
-			answer = input.nextLine();
+			answer = input.nextLine().toLowerCase();;
 			if (!answer.equals("y") && !answer.equals("n")) System.out.println("Invalid Answer !! ");
 		}while(!answer.equals("y") && !answer.equals("n"));
 		if (answer.equals("y"))  sewaRumah = true;
@@ -64,11 +77,11 @@ public class SPPNS{
 		// Jenis Jabatan
 		do{
 			System.out.print("Apakah jenis jabatan anda ?\n I. Fungsional\n II. Struktural\n III. Umum\n> ");
-			answer = input.nextLine();
-			if (!answer.equals("I") && !answer.equals("II") && !answer.equals("III")) System.out.println("Invalid Answer !!");
-		}while(!answer.equals("I") && !answer.equals("II") && !answer.equals("III"));
+			answer = input.nextLine().toLowerCase();;
+			if (!answer.equals("i") && !answer.equals("ii") && !answer.equals("iii")) System.out.println("Invalid Answer !!");
+		}while(!answer.equals("i") && !answer.equals("ii") && !answer.equals("iii"));
 		jenisJabatan = answer;
-		if (answer.equals("II")) {
+		if (answer.equals("ii")) {
 			do{
 				System.out.print("Eselon : ");
 				answer = input.nextLine();
@@ -136,6 +149,7 @@ public class SPPNS{
 
 
 		/*  Calculation  */
+
 		pendapatan[0] = gajiPokok(nativeGolongan, mkg); //Gaji Pokok
 		pendapatan[0] -= (100 - pembulatan(100, pendapatan[0]));
 
@@ -156,17 +170,17 @@ public class SPPNS{
 		for (int i=0; i < tunjangan.length; i++) {
 			pendapatan[1] += tunjangan[i];
 		}
+		pendapatan[1] += pembulatan(100, pendapatan[1]);
 
 		potongan[1] = percentage(10.0, (pendapatan[0] + tunjangan[3]+ tunjangan[4])); // IWP
 		potongan[2] = findPPH(findPKP(pendapatan, tunjangan, istri+anak)); // PPH
 		if(sewaRumah) potongan[3] = 400000; // Sewa Rumah
 		potongan[7] = taperum[golongan[0]]; // Taperum
 
-		pendapatan[2] = pendapatan[1]; // Gaji Bersih
+		pendapatan[2] = pendapatan[1] + potongan[2]; // Gaji Bersih
 		for (int i=0; i < potongan.length; i++) {
 			pendapatan[2] -= potongan[i];
 		}
-		pendapatan[2] += potongan[2];
 
 		for (int i=0; i < potongan.length; i++) {
 			totpot += potongan[i];
@@ -193,13 +207,16 @@ public class SPPNS{
 		System.out.println("T. P terpencil\t: "+tunjangan[6]);
 		System.out.println("T. Struktural \t: "+tunjangan[1]);
 		System.out.println("T. Fungsional \t: "+tunjangan[2]);
+		if (pendapatan[1] < 2000000){
+			System.out.println("T. T.Umum\t: "+(2000000 - pendapatan[1]));
+			pendapatan[1] = 2000000;
+		}
 		System.out.println("T. Lain \t: ");
 		if (tunjangan[8] != 0) System.out.println(" + "+tunjanganLain+" \t: "+tunjangan[8]); 
 		System.out.println("T. Bulat \t: "+pembulatan(100, pendapatan[1]));
 		System.out.println("T. Beras \t: "+tunjangan[7]);
-		System.out.println("T. Pajak \t: "+potongan[1]);
+		System.out.println("T. Pajak \t: "+potongan[2]);
 		System.out.println("----------------------------------------");
-		pendapatan[1] += pembulatan(100, pendapatan[1]);
 		System.out.println("Jumlah Kotor\t:"+pendapatan[1]);
 		System.out.println("----------------------------------------");
 		System.out.println("Pot. Beras \t: "+potongan[0]);
@@ -207,13 +224,14 @@ public class SPPNS{
 		System.out.println("Pot. PPH\t: "+potongan[2]);
 		System.out.println("Sewa Rumah\t: "+potongan[3]);
 		System.out.println("Hutang \t\t: ");
-		if (potongan[4] != 0) System.out.println(" + "+hutang+" \t: "+potongan[4]); 
+		if (potongan[4] != 0) System.out.println(" + "+hutang+" \t: "+potongan[4]);
 		System.out.println("Pot. Lain \t: ");
-		if (potongan[5] != 0) System.out.println(" + "+tunjanganLain+" \t: "+potongan[5]); 
-		System.out.println("Taperum \t: "+potongan[6]);
+		if (potongan[5] != 0) System.out.println(" + "+tunjanganLain+" \t: "+potongan[5]);
+		System.out.println("Taperum \t: "+potongan[7]);
 		System.out.println("----------------------------------------");
-		System.out.println("Jumlah potongan\t:"+totpot);
-		System.out.println("Jumlah Bersih\t:"+pendapatan[2]);
+		System.out.println("Jumlah potongan\t: "+totpot);
+		pendapatan[2] += pembulatan(100, pendapatan[2]);
+		System.out.println("Jumlah Bersih\t: "+pendapatan[2]);
 		System.out.println("========================================");
 
 
@@ -250,23 +268,18 @@ public class SPPNS{
 			{2899500, 3022100, 3149900, 3283200, 3422100}
 		};
 
-		if (golongan[0].equals("I")) {
+		if (golongan[0].equals("i")) {
 			if (golongan[1].equals("a")) {
 				gapok = gaji[0][0];
 			}else if (golongan[1].equals("b")) {
-				mkg -= 3;
 				gapok = gaji[0][1];
 			}else if (golongan[1].equals("c")) {
-				mkg -= 3;
 				gapok = gaji[0][2];
 			}else if (golongan[1].equals("d")) {
-				mkg -= 3;
 				gapok = gaji[0][3];
 			}	
-		}else if (golongan[0].equals("II")) {
-				mkg -= 3;
+		}else if (golongan[0].equals("ii")) {
 			if (golongan[1].equals("a")) {
-				mkg += 3;
 				gapok = gaji[1][0];
 			}else if (golongan[1].equals("b")) {
 				gapok = gaji[1][1];
@@ -275,7 +288,7 @@ public class SPPNS{
 			}else if (golongan[1].equals("d")) {
 				gapok = gaji[1][3];
 			}	
-		}else if (golongan[0].equals("III")) {
+		}else if (golongan[0].equals("iii")) {
 			if (golongan[1].equals("a")) {
 				gapok = gaji[2][0];
 			}else if (golongan[1].equals("b")) {
@@ -285,7 +298,7 @@ public class SPPNS{
 			}else if (golongan[1].equals("d")) {
 				gapok = gaji[2][3];
 			}	
-		}else if (golongan[0].equals("IV")) {
+		}else if (golongan[0].equals("iv")) {
 			if (golongan[1].equals("a")) {
 				gapok = gaji[3][0];
 			}else if (golongan[1].equals("b")) {
@@ -347,14 +360,16 @@ public class SPPNS{
 		String[] golString = gol.split("/");
 		int[] golongan = new int[2];
 
-		if (golString[0].equals("I")) {
+		if (golString[0].equals("i")) {
 			golongan[0] = 0;
-		}else if (golString[0].equals("II")) {
+		}else if (golString[0].equals("ii")) {
 			golongan[0] = 1;
-		}else if (golString[0].equals("III")) {
+		}else if (golString[0].equals("iii")) {
 			golongan[0] = 2;
-		} else if (golString[0].equals("IV")) {
+		} else if (golString[0].equals("iv")) {
 			golongan[0] = 3;
+		}else{
+			golongan[0] = 9;
 		}
 
 		if (golString[1].equals("a")) {
@@ -365,8 +380,10 @@ public class SPPNS{
 			golongan[1] = 2;
 		}else if (golString[1].equals("d")) {
 			golongan[1] = 3;
-		}else if (golString[1].equals("e")) {
+		}else if (golString[0].equals("IV") && golString[1].equals("e")) {
 			golongan[1] = 4;
+		}else{
+			golongan[1] = 9;
 		}
 		return golongan;
 	}
@@ -380,4 +397,5 @@ public class SPPNS{
 		int pembulatan = num - ((num/divider)*divider);
 		return divider - pembulatan;
 	}
+
 }
