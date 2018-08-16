@@ -1,0 +1,54 @@
+objek : 
+baju: * Kain
+		Warna kain
+		Jenis kain
+		kelembutan kain
+		Kancing Warna Kancing
+		Jenis Kancing
+		bahan kancing
+		benang
+		warna benang
+		jenis benang
+		merk
+		harga
+	  * Menutupi Aurat
+	    Mengurangi dingin 
+	    Dipakai Lap
+	    dipakai nutupin barang
+	    di pinjampak orang
+Celana *Kain
+		Warna kain
+		Jenis kain
+		kelembutan kain
+		Kancing Warna Kancing
+		Jenis Kancing
+		bahan kancing
+		benang
+		warna benang
+		jenis benang
+		resleting
+		warna resleting
+		jenis resleting
+		bahan reseleting
+	  	merk
+	  	harga
+	  * Menutupi Aurat
+	    Mengurangi dingin 
+	    Dipakai Lap
+	    dipakai nutupin barang
+	    di pinjampak orang 	    
+penghapus : * kain penghapus
+			  warna kain penghapus
+			  bahan kain 
+			  Busa 
+			  warna busa
+			  pegangan penghapus
+			  warna pegangan
+			  bahan pegangan
+			  merk penghapus
+			  harga penghapus
+			* meghapus
+			  Lempar
+			  buat bantal
+			  buat ganjal
+			  buat jadi mobil mobilan
