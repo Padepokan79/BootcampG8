@@ -226,9 +226,6 @@ public class SPPNS{
 		pendapatan[2] += pembulatan(100, pendapatan[2]);
 		System.out.println("Jumlah Bersih\t: "+pendapatan[2]);
 		System.out.println("========================================");
-
-
-
 	}
 
 
