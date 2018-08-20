@@ -5,7 +5,8 @@ public class ArrayLinearSearch{
 		Scanner keyboard = new Scanner(System.in);
 		int[] orderNumbers = {12345, 54321, 101010, 8675309, 31415, 271828};
 		int toFind;
-
+		////dawdawdawdqwdwdooo//
+		/*dawdwdawd*/
 		System.out.print("Threre are "+ orderNumbers.length);
 		System.out.println(" orders in the database.");
 
