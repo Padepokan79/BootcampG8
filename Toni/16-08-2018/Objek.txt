@@ -1,0 +1,65 @@
+
+Objek 1 :
+
+Laptop{
+	State :
+		- Merk
+		- Model
+		- Processor
+		- RAM
+		- GPU
+		- Hardisk
+		- Jenis Monitor
+		- Resolusi Monitor
+		- Kapasitas Baterai
+		- Temperatur
+	Behavior :
+		- Menghidupkan Power Laptop
+		- Mematikan Power Laptop
+		- Menjalankan BIOS
+		- Menjalankan Sistem Operasi
+		- Menjalankan Aplikasi
+		- Membuat file
+		- Menghapus file
+		- Menyalin file
+}
+
+
+Objek 2 :
+
+Manusia{
+	State :
+		- Nama
+		- Tanggal Lahir
+		- Tinggi Badan
+		- Berat Badan
+		- Warna Kulit
+		- Warna Rambut
+		- Kesadaran
+	Behavior :
+		- Berjalan
+		- Berlari
+		- Melompat
+		- Berbicara
+		- Makan
+		- Bermain
+		- Tidur
+}
+
+Objek 3 :
+
+Pintu{
+	State :
+		- Merk
+		- Ukuran
+		- Warna
+		- Bahan
+		- Kondisi
+		- Terkunci
+		- Terbuka
+	Behavior :
+		- Buka
+		- Tutup
+		- Kunci
+		- Buka Kunci
+}
