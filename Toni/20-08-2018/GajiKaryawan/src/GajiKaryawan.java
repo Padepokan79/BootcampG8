@@ -5,7 +5,7 @@ public class GajiKaryawan {
 	
 	public static void main(String[] args) {
 		String answer, name = "dudu", nik = "123", penempatan = "jakarta", jabatan = "1", status = "1";
-		int a, keluarga = 1;
+		int a, keluarga = 1, jamLembur;
 		Karyawan k;
 		
 		
@@ -63,7 +63,10 @@ public class GajiKaryawan {
 		}while(!answer.matches("[0-9]+"));
 		keluarga = Integer.parseInt(answer);
 		
-		k = new Karyawan(name, nik, penempatan, jabatan, status, keluarga);
+		System.out.print("Masukan Jumlah jam lembur : ");
+		jamLembur = input.nextInt();
+		
+		k = new Karyawan(name, nik, penempatan, jabatan, status, keluarga, jamLembur);
 		k.slip();
 		
 	}

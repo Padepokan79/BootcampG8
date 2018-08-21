@@ -5,14 +5,14 @@ public class Karyawan {
 	int lembur, tPegawai, gapok, keluarga, gB;
 	int[] tunjangan = new int[3], potongan = new int[3];
 	
-	Karyawan(String name, String nik, String penempatan, String jabatan, String status,int keluarga){
+	Karyawan(String name, String nik, String penempatan, String jabatan, String status, int keluarga, int jamLembur){
 		this.name = name;
 		this.nik = nik;
 		this.penempatan = penempatan;
 		this.jabatan = position[Integer.parseInt(jabatan)-1];
 		this.status = stat[Integer.parseInt(status)-1];
 		this.keluarga = keluarga;
-		
+		this.lembur = jamLembur;
 		tunjangan = hitungTunjangan();
 		potongan = hitungPotongan();
 	}
@@ -39,6 +39,7 @@ public class Karyawan {
 		System.out.println("P BPJS kesjhtr\t: "+potongan[1]);
 		System.out.println("P PPH \t\t: "+potongan[2]);
 		System.out.println("========================================");
+		System.out.println("Lemburan \t: "+hitungLemburan());
 		System.out.println("Gaji Bersih \t: "+gajiBersih());
 		System.out.println("========================================");
 	}
@@ -126,6 +127,10 @@ public class Karyawan {
 		p[2] = pph();
 		
  		return p;
+	}
+	
+	int hitungLemburan() {
+		return (int)(lembur * (1.5 * (1/173 * gajiPokok())));
 	}
 	
 	int pph() {
