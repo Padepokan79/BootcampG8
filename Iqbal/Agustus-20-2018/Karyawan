@@ -1,0 +1,29 @@
+Karyawan
+- Nip
+- Nama
+- Tanggal Lahir
+- Alamat
+- Nik
+- no hp
+- Email
+- Status Karyawan
+- masa Kerja Karyawan
+- gaji Karyawan
+- Jabatan Karyawan
+- Tugas Karyawan
+- Tempat Bekerja
+//- jam Lembur
+
+
+* Bekerja
+* Istirahat
+* Datang
+* Pulang
+* Diam
+* Makan 
+* Minum
+* Tanda Tangan
+* Menerima Gaji Pokok
+* Dapat THR
+* Mendapatkan Pengumuman
+* ditentuan status kepegawaian
