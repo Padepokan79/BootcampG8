@@ -1,0 +1,12 @@
+Account : - Norekening
+		  - nama Pemilik
+		  - pin
+		  - Saldo
+
+		  *Membuat Akun
+		  *Cek saldo
+		  *Menabung
+		  *Tarik Tunai
+UMK : bandung : 3.091.345,56
+	  Karawang : 3.919.291,19
+	  Jakarta  : 3,648,035.82
