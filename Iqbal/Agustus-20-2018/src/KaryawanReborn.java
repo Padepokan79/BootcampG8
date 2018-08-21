@@ -4,7 +4,7 @@ public class KaryawanReborn {
 	
 	String nama , nik ,  penempatanKerja , pekerjaan , statusKeluarga = "n" ;
 	int jumlahPenghasilan , jumlahPotongan , gajiDiterima;
-	double jumlahKeluarga = 1 , masaKerja , jamLembur;
+	double jumlahKeluarga = 0 , masaKerja , jamLembur;
 	double lembur , gapok , gator , nilaiUmk , tunjanganKhusus = 0, tunjanganPegawai, tunjanganKeluarga , potonganPPH , potonganBpjsKesehatan , potonganBpjsKetenagaKerjaan ;
 	double[] umk = {3091345.56 , 3648035.82 , 3919291.19};
 	double[] bagianKerja = {1 , 1.2 , 1 , 0.9};
@@ -15,20 +15,19 @@ public class KaryawanReborn {
 	void outPut() {	
 		System.out.println("Nama		: "+nama);
 		System.out.println("NIK		: "+nik);
-		System.out.println("Gaji pokok		: "+gapok);
+		System.out.println("Gaji pokok		: "+gapok(pekerjaan , penempatanKerja));
 		System.out.println("Penempatan Kerja		: "+penempatanKerja);
-		System.out.println("Gaji Lembur		: "+lembur);
+		System.out.println("Pekerjaan		: "+pekerjaan);
+		System.out.println("Gaji Lembur		: "+gajiLembur(gajiKotor(gapok(pekerjaan,penempatanKerja),tunjanganFamili(statusKeluarga), tunjanganEmployee(masaKerja) , tunjanganKhusus(penempatanKerja)) , jamLembur));
 		System.out.println("Tunjangan :");
-		System.out.println("Tunjangan Keluarga		: "+tunjanganKeluarga);
-		System.out.println("Tunjangan Pegawai		: "+tunjanganPegawai);
-		System.out.println("Tunjangan Khusus		: "+tunjanganKhusus);
+		System.out.println("Tunjangan Keluarga		: "+tunjanganFamili(statusKeluarga));
+		System.out.println("Tunjangan Pegawai		: "+tunjanganEmployee(masaKerja));
+		System.out.println("Tunjangan Khusus		: "+tunjanganKhusus(penempatanKerja));
 		System.out.println("Potongan :");
-		System.out.println("Potongan PPH:		 "+potonganPPH);
-		System.out.println("Potongan BPJS KESEHATAN		: "+potonganBpjsKesehatan);
-		System.out.println("Potongan BPJS Ketenaga Kerjaan		: "+potonganBpjsKetenagaKerjaan);
-		System.out.println("Jumlah Penghasilan	: "+jumlahPenghasilan);
-		System.out.println("Jumlah Potongan	: "+jumlahPotongan);
-		System.out.println("Gaji Diterima	: "+gajiDiterima);
+		System.out.println("Potongan PPH:		 "+pph(gapok(pekerjaan,penempatanKerja) , tunjanganFamili(statusKeluarga), gajiKotor(gapok(pekerjaan,penempatanKerja),tunjanganFamili(statusKeluarga), tunjanganEmployee(masaKerja) , tunjanganKhusus(penempatanKerja)) ,jumlahKeluarga));
+		System.out.println("Potongan BPJS KESEHATAN		: "+bpjsKesehatan(gajiKotor(gapok(pekerjaan,penempatanKerja),tunjanganFamili(statusKeluarga), tunjanganEmployee(masaKerja) , tunjanganKhusus(penempatanKerja))));
+		System.out.println("Potongan BPJS Ketenaga Kerjaan		: "+bpjsKetenagaKerjaan(gajiKotor(gapok(pekerjaan,penempatanKerja),tunjanganFamili(statusKeluarga), tunjanganEmployee(masaKerja) , tunjanganKhusus(penempatanKerja))));
+		System.out.println("Gaji Diterima	: "+(jumlahPenghasilanKu(gajiKotor(gapok(pekerjaan,penempatanKerja),tunjanganFamili(statusKeluarga), tunjanganEmployee(masaKerja) , tunjanganKhusus(penempatanKerja)) , gajiLembur(gajiKotor(gapok(pekerjaan,penempatanKerja),tunjanganFamili(statusKeluarga), tunjanganEmployee(masaKerja) , tunjanganKhusus(penempatanKerja)) , jamLembur)) - jumlahPotonganKu(pph(gapok(pekerjaan,penempatanKerja) , tunjanganFamili(statusKeluarga), gajiKotor(gapok(pekerjaan,penempatanKerja),tunjanganFamili(statusKeluarga), tunjanganEmployee(masaKerja) , tunjanganKhusus(penempatanKerja)) ,jumlahKeluarga) , bpjsKesehatan(gajiKotor(gapok(pekerjaan,penempatanKerja),tunjanganFamili(statusKeluarga), tunjanganEmployee(masaKerja) , tunjanganKhusus(penempatanKerja))) , bpjsKetenagaKerjaan(gajiKotor(gapok(pekerjaan,penempatanKerja),tunjanganFamili(statusKeluarga), tunjanganEmployee(masaKerja) , tunjanganKhusus(penempatanKerja))))) );
 	} 
 	
 	//2:05 20-08-2018 Penentuan Gapok
@@ -67,18 +66,14 @@ public class KaryawanReborn {
 	double tunjanganFamili(String statusKeluarga) {
 		tunjanganKeluarga = 0 ;
 		if(statusKeluarga.equals("y")) {
-			if(jumlahKeluarga < 3) {
-				tunjanganKeluarga += 0.02*gapok*jumlahKeluarga;
-			}
-			else {
-				tunjanganKeluarga += 0.02*gapok*3;
-			}
+			tunjanganKeluarga += 0.02*gapok;
+			
 		}
 		return tunjanganKeluarga;
 	}
 	
 	//2.40 20-08-2018 Tunjangan Pegawai
-	double tunjanganEmployee(int masaKerja) {
+	double tunjanganEmployee(double masaKerja) {
 		tunjanganPegawai = 0;
 		if(masaKerja < 3) {
 			tunjanganPegawai += tunjanganKu[0];
@@ -87,7 +82,7 @@ public class KaryawanReborn {
 			tunjanganPegawai += tunjanganKu[1];
 		}
 		else {
-			tunjanganPegawai += tunjanganKu[3];
+			tunjanganPegawai += tunjanganKu[2];
 		}
 		return tunjanganPegawai;
 	}
@@ -108,7 +103,7 @@ public class KaryawanReborn {
 
 	
 	//3.00 20-08-2018 Cari Lembur
-	double gajiLembur(double gajiKotor) {
+	double gajiLembur(double gajiKotor , double jamLembur) {
 		lembur = 0;
 		if(jamLembur != 0) {
 			lembur += 1.5 * 0.00578 * gajiKotor;
@@ -178,12 +173,6 @@ public class KaryawanReborn {
 		jumlahPotongan = (int)(pph + kesehatan + ketenagaKerjaan);
 		return jumlahPotongan;
 	}
-	
-
-	
-	
-	
-	
 	
 	
 	
