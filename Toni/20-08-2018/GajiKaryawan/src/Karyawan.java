@@ -1,12 +1,55 @@
 
 public class Karyawan {
 	String name, nik, penempatan, jabatan, status;
+	String[] position = {"programmer", "analis", "tester", "writer"}, stat = {"junior", "middle", "senior"};
 	int lembur, tPegawai, gapok, keluarga, gB;
 	int[] tunjangan = new int[3], potongan = new int[3];
 	
-	Karyawan(String name, String nik, String penempatan, String jabatan, String status){
-		gapok = gajiPokok();
-		gB = gajiBersih();
+	Karyawan(String name, String nik, String penempatan, String jabatan, String status,int keluarga){
+		this.name = name;
+		this.nik = nik;
+		this.penempatan = penempatan;
+		this.jabatan = position[Integer.parseInt(jabatan)-1];
+		this.status = stat[Integer.parseInt(status)-1];
+		this.keluarga = keluarga;
+		
+		tunjangan = hitungTunjangan();
+		potongan = hitungPotongan();
+	}
+	
+	Karyawan(){
+		
+	}
+	
+	void slip() {
+		System.out.println("========================================");
+		System.out.println("Nama \t: "+name);
+		System.out.println("NIK \t: "+nik);
+		System.out.println("Penempatan \t: "+penempatan);
+		System.out.println("Jabatan \t: "+jabatan);
+		System.out.println("Status \t: "+status);
+		System.out.println("========================================");
+		System.out.println("Gaji Pokok \t: "+gajiPokok());
+		System.out.println("T Keluarga \t: "+tunjangan[0]);
+		System.out.println("T Posisi \t: "+tunjangan[1]);
+		System.out.println("T Transport \t: "+tunjangan[2]);
+		System.out.println("Gaji Kotor \t: "+gajiKotor());
+		System.out.println("========================================");
+		System.out.println("P BPJS kesehtn\t: "+potongan[0]);
+		System.out.println("P BPJS kesjhtr\t: "+potongan[1]);
+		System.out.println("P PPH \t\t: "+potongan[2]);
+		System.out.println("========================================");
+		System.out.println("Gaji Bersih \t: "+gajiBersih());
+		System.out.println("========================================");
+	}
+	
+	void initialize(String name, String nik, String penempatan, String jabatan, String status, int keluarga){
+		this.name = name;
+		this.nik = nik;
+		this.penempatan = penempatan;
+		this.jabatan = jabatan;
+		this.status = status;
+		this.keluarga = keluarga;
 	}
 	
 	int gajiPokok(){
@@ -52,7 +95,7 @@ public class Karyawan {
 	}
 	
 	//function tunjangan
-	int[] tunjangan() {
+	int[] hitungTunjangan() {
 		int[] t = new int[3], tPegawai = {200000, 300000, 500000};
 		
 		// Tunjangan keluarga 
@@ -70,7 +113,7 @@ public class Karyawan {
 	}
 	
 	//function potongan
-	int[] potongan () {
+	int[] hitungPotongan () {
 		int[] p = new int[3];
 		
 		//potogan BPJS Kesehatan
@@ -80,13 +123,13 @@ public class Karyawan {
 		p[1] = (int)(0.01 * gajiKotor());
 		
 		//potogan BPJS Ketenagakerjaan
-		p[1] = pph();
+		p[2] = pph();
 		
  		return p;
 	}
 	
 	int pph() {
-		int pajak = (int)(0.05 * pkp());
+		int pajak = (int)(0.05 * (pkp() / 12));
 		return pajak;
 	}
 	
