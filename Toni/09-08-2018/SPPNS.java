@@ -14,7 +14,7 @@ public class SPPNS{
 
 		int[] pendapatan = new int[5], tunjangan = new int[10], potongan = new int[10], golongan = new int[2],
 			taperum = {3000, 5000, 7000, 10000};
-		int anak, mkg, istri = 0, eselon = 0, totpot = 0;
+		int anak, mkg, istri = 0, eselon = 0, totpot = 0, ttumum = 0;
 		boolean terpencil = false, papua = false, sewaRumah = false;
 		String nama, nip, menikah, answer, jenisJabatan, nativeGolongan, hutang="", tunjanganLain="", potonganLain="";
 
@@ -186,6 +186,8 @@ public class SPPNS{
 			totpot += potongan[i];
 		}
 
+		pendapatan[2] += pembulatan(100, pendapatan[2]);
+
 
 		/*  Display Result  */
 		System.out.println("========================================");
@@ -197,6 +199,11 @@ public class SPPNS{
 		System.out.println("T. Anak \t: "+tunjangan[4]);
 		System.out.println("T. Umum \t: "+tunjangan[0]);
 		System.out.println("T. Papua\t: "+tunjangan[5]);
+		if (pendapatan[2] < 2000000){
+			ttumum = (2000000-pendapatan[2]);
+			pendapatan[2] = 2000000;
+		}
+		System.out.println("T. T.Umum\t: "+ttumum);
 		System.out.println("T. P terpencil\t: "+tunjangan[6]);
 		System.out.println("T. Struktural \t: "+tunjangan[1]);
 		System.out.println("T. Fungsional \t: "+tunjangan[2]);
