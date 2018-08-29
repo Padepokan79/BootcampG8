@@ -11,6 +11,6 @@ class ToileterySG extends GoodsSGA{
 	}
 
 	public String toString(){
-		return "item: " + this.getDescription() + " quantity: " + this.getComposition() + " price: " + this.getQuantity() + " Composition : " + getComposition() ;
+		return "item: " + this.getDescription() + " price: " + this.getQuantity() + " Composition : " + getComposition() + " quantity: " + this.getComposition() ;
 	}
 }

@@ -11,6 +11,6 @@ class FoodSG extends GoodsSGA{
 	}
 
 	public String toString(){
-		return "item: " + this.getDescription() + " quantity: " + this.getQuantity() + " price: " + this.getQuantity() + " Calories : " + getCalories() ;
+		return "item: " + this.getDescription() + " price: " + this.getQuantity() + " Calories : " + getCalories() + " quantity: " + this.getQuantity() ;
 	}
 }
