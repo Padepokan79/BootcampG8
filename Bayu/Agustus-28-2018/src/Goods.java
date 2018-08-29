@@ -1,0 +1,14 @@
+
+public class Goods {
+	String description;
+	double price;
+	
+	Goods (String des, double pr) {
+		description = des;
+		price       = pr;
+	}
+	
+	void tampilkan() {
+		System.out.println("item : " +description+ " price : " +price);
+	}
+}
