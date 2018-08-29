@@ -11,7 +11,7 @@ class BookSG  extends GoodsSGA implements Taxable{
 	}
 
 	public String toString(){
-		return "item: " + this.getDescription() + " Author: "+ this.getAuthor() + " price: " + this.getQuantity() + " quantity: " + this.getQuantity() ;
+		return "item: " + this.getDescription() + " Author: "+ this.getAuthor() + " price: " + this.getPrice() + " quantity: " + this.getQuantity() ;
 	}
 
   	public double calculateTax(){

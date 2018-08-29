@@ -12,7 +12,7 @@ class ToySG extends GoodsSGA implements Taxable{
 	}
 
 	public String toString(){
-		return "item: " + this.getDescription() + "Minimum Age: " + this.getMinimumAge() + " price: " + this.getQuantity() + " quantity: " + this.getQuantity() ;
+		return "item: " + this.getDescription() + " Minimum Age: " + this.getMinimumAge() + " price: " + this.getPrice() + " quantity: " + this.getQuantity() ;
 	}
 
 	public double calculateTax(){
