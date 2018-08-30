@@ -3,10 +3,10 @@ public class Teacher extends Person {
 String subject;
 	
 	Teacher(String name, String gender, int id, int age, String subject){
-		this.name = name;
-		this.gender = gender;
-		this.id = id;
-		this.age = age;
+		this.setName(name);
+		this.setGender(gender);
+		this.setId(id);
+		this.setAge(age);
 		this.subject = subject;
 	}
 	
