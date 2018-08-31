@@ -1,28 +1,42 @@
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 public class Pns extends Karyawan implements TunjanganPns, PotonganPns{
-	String eselon;
+	int eselon;
 	int mkg, anak;
 	Boolean sewa;
 	
 	// Constructor
 	public Pns(String nama, String nip, String penempatan, String jabatan, String golongan, Boolean menikah,
-			String eselon, int mkg, int anak, Boolean sewa) {
+			int eselon, int mkg, int anak, Boolean sewa) {
 		super(nama, nip, penempatan, jabatan, golongan, menikah);
 		this.eselon = eselon;
 		this.mkg = mkg;
 		this.anak = anak;
 		if(anak > 3) anak = 3;
 		this.sewa = sewa;
-		gaji.put("Pokok", gajiPokok());
-		gaji.put("Kotor", gajiKotor());
-		gaji.put("Bersih", gajiBersih());
-		potongan.put("Tunjangan Suami Istri", tunjanganPasutri());
-		potongan.put("Tunjangan Anak", tunjanganAnak());
-		potongan.put("Tunjangan Umum", tunjanganJabatan("Umum"));
-		potongan.put("Tunjangan Struktural", tunjanganJabatan("Struktural"));
-		potongan.put("Tunjangan Fungsional", tunjanganJabatan("Fungsional"));
+		
+		gaji = new HashMap<String, Double>();
+		gaji.put("pokok", gajiPokok());
+		
+		tunjangan = new HashMap<String, Double>();
+		tunjangan.put("Tunjangan Suami Istri", tunjanganPasutri());
+		tunjangan.put("Tunjangan Anak", tunjanganAnak());
+		tunjangan.put("Tunjangan Umum", tunjanganJabatan("umum"));
+		tunjangan.put("Tunjangan Struktural", tunjanganJabatan("struktural"));
+		tunjangan.put("Tunjangan Fungsional", tunjanganJabatan("fungsional"));
+		tunjangan.put("TUnjangan PPH", potonganPph());
+		
+		gaji.put("kotor", gajiKotor());
+		
+		potongan = new HashMap<String, Double>();
+		potongan.put("Potongan IWP", potonganIwp());
+		potongan.put("Potongan Taperum", potonganTaperum());
+		potongan.put("Potongan Sewa", potonganSewa());
+		potongan.put("Potongan PPH", potonganPph());
+		gaji.put("bersih", gajiBersih());
+		
 	}
 	
 	@Override
@@ -37,7 +51,7 @@ public class Pns extends Karyawan implements TunjanganPns, PotonganPns{
 			put("iii/a", 2456700.0); put("iii/b", 2560600.0); put("iii/c", 2668900.0); put("iii/d", 2781800.0);	
 			put("iv/a", 2899500.0); put("iv/b", 3022100.0); put("iv/c", 3149900.0); put("iv/d", 3283200.0); put("iv/e", 3422100.0);	
 		}};
-		gapok = umk.get(golongan);
+		gapok = umk.get("i/a");
 
 		// Gapok base on Umk
 		if(golongan.equals("i/b") || golongan.equals("i/c") || golongan.equals("ii/d") || golongan.equals("ii/b") || golongan.equals("ii/c") || golongan.equals("ii/d")) {
@@ -52,7 +66,7 @@ public class Pns extends Karyawan implements TunjanganPns, PotonganPns{
 
 	@Override
 	double gajiKotor() {
-		double bruto = gajiBersih();
+		double bruto = gajiPokok();
 		for(Map.Entry<String, Double> tj: tunjangan.entrySet()) {
 			bruto += tj.getValue();
 		}
@@ -61,9 +75,9 @@ public class Pns extends Karyawan implements TunjanganPns, PotonganPns{
 
 	@Override
 	double gajiBersih() {
-		double netto = gajiBersih();
+		double netto = gajiKotor();
 		for(Map.Entry<String, Double> pot : potongan.entrySet()) {
-			netto += pot.getValue();
+			netto -= pot.getValue();
 		}
 		return netto;
 	}
@@ -110,7 +124,7 @@ public class Pns extends Karyawan implements TunjanganPns, PotonganPns{
 		if(jabatan.equals(target))
 			t = tFungsional;
 		else if(jabatan.equals(target)) {
-			t = tStruktural.get(eselon);
+			t = tStruktural[eselon];
 		}else if(jabatan.equals(target)) {
 			t = tUmum.get(golongan.split("/")[0]);
 		}
@@ -141,7 +155,10 @@ public class Pns extends Karyawan implements TunjanganPns, PotonganPns{
 	}
 
 	public double potonganSewa() {
+		if(sewa)
 		return tarifSewa;
+		else
+		return 0.0;
 	}
 
 	public double potonganIwp() {
@@ -156,13 +173,18 @@ public class Pns extends Karyawan implements TunjanganPns, PotonganPns{
 	// --- PPH Interface ---
 	
 	public double potonganPph() {
-		return (hitungPkp() * tarifPph) / 12;
+		double temppkp = hitungPkp();
+		if (temppkp > 0)
+			return (hitungPkp() * tarifPph) / 12;
+		else
+			return 0;
 	}
 
 	public double hitungPkp() {
 		double pkp = gajiKotor(), biayaJabatan, iuranPensiun;
 		biayaJabatan = 0.05 * gajiKotor();
 		iuranPensiun = 0.0475 * (gajiPokok() + tunjanganPasutri() + tunjanganAnak());
+		if(pkp < 0) pkp = 0;
 		return ((pkp-biayaJabatan-iuranPensiun)*12)-hitungPtkp();
 	}
 	
@@ -172,7 +194,24 @@ public class Pns extends Karyawan implements TunjanganPns, PotonganPns{
 		return 36000000 + (3000000 * a);
 	}
 
-	
+	public void slip() {
+		System.out.println("========================================");
+		System.out.println("Nama   : "+nama);
+		System.out.println("NIP    : "+nip);
+		System.out.println("----------------------------------------");
+		System.out.println("Gaji Pokok : "+gaji.get("pokok"));
+		for(Map.Entry<String, Double> tj : tunjangan.entrySet()) {
+			System.out.println(tj.getKey()+" : "+tj.getValue());
+		}
+		System.out.println("----------------------------------------");
+		System.out.println("Gaji Kotor : "+gaji.get("kotor"));
+		System.out.println("----------------------------------------");
+		for(Map.Entry<String, Double> pt : potongan.entrySet()) {
+			System.out.println(pt.getKey()+" : "+pt.getValue());
+		}
+		System.out.println("----------------------------------------");
+		System.out.println("Gaji Bersih : "+gaji.get("bersih"));
+	}
 	
 	
 
