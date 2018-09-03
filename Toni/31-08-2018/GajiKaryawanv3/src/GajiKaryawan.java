@@ -9,7 +9,7 @@ public class GajiKaryawan {
 	public static void main(String[] args) {
 		String answer, name, nik, penempatan, tingkat, posisi;
 		Boolean menikah = false;
-		int masaKerja, bonus, lembur;
+		int masaKerja, bonus = 0, lembur;
 		HashMap<String, String> question = new HashMap<String, String>(){{
 				put("pg", "Masukan jumlah Bug yang diperbaiki");
 				put("ts", "Masukan jumlah test case");
@@ -76,12 +76,14 @@ public class GajiKaryawan {
 		}while(!answer.matches("[0-9]+") || Integer.parseInt(answer) < 0);
 		lembur = Integer.parseInt(answer);
 		
-		do{
-			System.out.print(question.get(posisi)+" : ");
-			answer = input.nextLine();
-			if (!answer.matches("[0-9]+") || Integer.parseInt(answer) < 0) System.out.println("Invalid Jumlah Jam Lembur!!");
-		}while(!answer.matches("[0-9]+") || Integer.parseInt(answer) < 0);
-		bonus = Integer.parseInt(answer);
+		if(!posisi.equals("sa")) {
+			do{
+				System.out.print(question.get(posisi)+" : ");
+				answer = input.nextLine();
+				if (!answer.matches("[0-9]+") || Integer.parseInt(answer) < 0) System.out.println("Invalid Jumlah Jam Lembur!!");
+			}while(!answer.matches("[0-9]+") || Integer.parseInt(answer) < 0);
+			bonus = Integer.parseInt(answer);
+		}
 		
 		if(posisi.equals("pg")) {
 			worker = new PG(name, nik, penempatan, menikah, masaKerja, lembur, tingkat, bonus);

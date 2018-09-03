@@ -1,4 +1,5 @@
 //import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,8 +18,7 @@ public class SA extends Karyawan implements Potongan, Tunjangan, Umk{
 		
 		tunjangan.put("Tunjangan Pegawai", round(hitungTPegawai()));
 		tunjangan.put("Tunjangan Keluarga", round(hitungTKeluarga()));
-		if(penempatan.equals("jakarta"))
-			tunjangan.put("Tunjangan Transport", round(tarifTTransport));
+		tunjangan.put("Tunjangan Transport", round(hitungTTransport()));
 		
 		potongan.put("Potongan PPH", round(hitungPph()));
 		potongan.put("Pot. BPJS Kesehatan", round(potonganBPJS()));
@@ -84,17 +84,36 @@ public class SA extends Karyawan implements Potongan, Tunjangan, Umk{
 		if(menikah) tmp = tarifTKeluarga * gajiPokok();
 		return tmp;
 	}
-
+	
+	public double hitungTTransport() {
+		if(penempatan.equals("jakarta")) 
+			return tarifTTransport;
+		else return 0;
+	}
+	
 	public double potonganBPJS() {
 		return tarifBPJS * gajiPokok();
 	}
 	
 	public double hitungPph() {
-		double temppkp = hitungPkp();
-		if (temppkp > 0)
-			return (hitungPkp() * tarifPph) / 12;
-		else
-			return 0;
+		double temppkp = hitungPkp(), totalpph = 0.0;
+		ArrayList<Double> jumlahPph = new ArrayList<Double>();
+		int index = 0; 
+		//Hitung PPH
+		while(index < 4) {
+			if(temppkp > rangePph.get(index)) {
+				temppkp -= rangePph.get(index);
+				jumlahPph.add(rangePph.get(index) * tarifPph.get(index));
+			}else {
+				jumlahPph.add(temppkp * tarifPph.get(index));
+				break;
+			}
+		}
+		//Jumlah PPH
+		for(double pphs : jumlahPph) {
+			totalpph += pphs;
+		}
+		return totalpph/12;
 	}
 
 	public double hitungPkp() {
