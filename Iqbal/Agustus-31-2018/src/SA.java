@@ -141,7 +141,7 @@ public class SA extends Karyawan  implements UMK , potongan, tunjangan {
 	}
 	
 	double getGajiKotor(){
-		return getGapok()+getTunjanganPegawai()+getTunjanganKhusus()+getTunjanganKeluarga();
+			return getGapok()+getTunjanganPegawai()+getTunjanganKhusus()+getTunjanganKeluarga();
 	}
 	public double getPTKP(){
 		double ptkpKu = ptkp;
@@ -175,13 +175,13 @@ public class SA extends Karyawan  implements UMK , potongan, tunjangan {
 		}
 		else {
 			if(pkp >= batasPPH50) {
-				pph += (pphDibawah50*pkp)/12;
+				pph += (pphDibawah50*batasPPH50)/12;
 				pkp -= batasPPH50;
 				if(pkp >= batasPPH250) {
-					pph += (pphDibawah250*pkp)/12;
+					pph += (pphDibawah250*batasPPH250)/12;
 					pkp -= batasPPH250;
 					if(pkp >= batasPPH500) {
-						pph += (pphDibawah500*pkp)/12;
+						pph += (pphDibawah500*batasPPH500)/12;
 						pkp -= batasPPH500;
 						if(pkp > 0) {
 							pph+= (pphDiatas500*pkp)/12;
@@ -214,7 +214,7 @@ public class SA extends Karyawan  implements UMK , potongan, tunjangan {
 	}
 	double getGajiBersih() {
 		
-		return getPenghasilan()-getPotongan();
+		return (long)getPenghasilan()-getPotongan();
 	}
 	void slipGaji() {
 		System.out.println("===========================================");
