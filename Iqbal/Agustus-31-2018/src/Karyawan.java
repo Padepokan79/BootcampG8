@@ -1,8 +1,7 @@
 
-public class Karyawan {
-	private String nama , nik  , penempatanKerja , tingkatKerja , statusKeluarga ;
-	private int masaKerja;
-	private double gapok , jamLembur;
+	abstract public class Karyawan {
+	private String nama , nik  , penempatanKerja  ;
+	private double gapok;
 
 	public String getNama() {
 		return nama;
@@ -36,39 +35,7 @@ public class Karyawan {
 		this.penempatanKerja = penempatanKerja;
 	}
 
-	public String getTingkatKerja() {
-		return tingkatKerja;
-	}
-
-	public void setTingkatKerja(String tingkatKerja) {
-		this.tingkatKerja = tingkatKerja;
-	}
-
-	public int getMasaKerja() {
-		return masaKerja;
-	}
-
-	public void setMasaKerja(int masaKerja) {
-		this.masaKerja = masaKerja;
-	}
 	
-
-	public String getStatusKeluarga() {
-		return statusKeluarga;
-	}
-
-
-	public double getJamLembur() {
-		return jamLembur;
-	}
-
-	public void setJamLembur(double jamLembur) {
-		this.jamLembur = jamLembur;
-	}
-
-	public void setStatusKeluarga(String statusKeluarga) {
-		this.statusKeluarga = statusKeluarga;
-	}
 	
 	
 }
