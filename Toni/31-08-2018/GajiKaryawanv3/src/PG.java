@@ -17,8 +17,7 @@ public class PG extends Karyawan implements Potongan, Tunjangan, Umk, Bonus{
 		
 		tunjangan.put("Tunjangan Pegawai", round(hitungTPegawai()));
 		tunjangan.put("Tunjangan Keluarga", round(hitungTKeluarga()));
-		if(penempatan.equals("jakarta"))
-			tunjangan.put("Tunjangan Transport", round(tarifTTransport));
+		tunjangan.put("Tunjangan Transport", round(hitungTTransport()));
 		
 		potongan.put("Potongan PPH", round(hitungPph()));
 		potongan.put("Pot. BPJS Kesehatan", round(potonganBPJS()));
@@ -89,6 +88,12 @@ public class PG extends Karyawan implements Potongan, Tunjangan, Umk, Bonus{
 		double tmp = 0.0;
 		if(menikah) tmp = tarifTKeluarga * gajiPokok();
 		return tmp;
+	}
+	
+	public double hitungTTransport() {
+		if(penempatan.equals("jakarta")) 
+			return tarifTTransport;
+		else return 0;
 	}
 
 	public double potonganBPJS() {

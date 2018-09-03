@@ -6,4 +6,5 @@ public interface Tunjangan {
 	double hitungTPegawai();
 	double hitungTKeluarga();
 	double hitungLembur();
+	double hitungTTransport();
 }

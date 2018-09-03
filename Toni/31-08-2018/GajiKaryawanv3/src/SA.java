@@ -17,8 +17,7 @@ public class SA extends Karyawan implements Potongan, Tunjangan, Umk{
 		
 		tunjangan.put("Tunjangan Pegawai", round(hitungTPegawai()));
 		tunjangan.put("Tunjangan Keluarga", round(hitungTKeluarga()));
-		if(penempatan.equals("jakarta"))
-			tunjangan.put("Tunjangan Transport", round(tarifTTransport));
+		tunjangan.put("Tunjangan Transport", round(hitungTTransport()));
 		
 		potongan.put("Potongan PPH", round(hitungPph()));
 		potongan.put("Pot. BPJS Kesehatan", round(potonganBPJS()));
@@ -84,7 +83,13 @@ public class SA extends Karyawan implements Potongan, Tunjangan, Umk{
 		if(menikah) tmp = tarifTKeluarga * gajiPokok();
 		return tmp;
 	}
-
+	
+	public double hitungTTransport() {
+		if(penempatan.equals("jakarta")) 
+			return tarifTTransport;
+		else return 0;
+	}
+	
 	public double potonganBPJS() {
 		return tarifBPJS * gajiPokok();
 	}
