@@ -13,11 +13,10 @@ public class GajiKaryawan {
 		HashMap<String, String> question = new HashMap<String, String>(){{
 				put("pg", "Masukan jumlah Bug yang diperbaiki");
 				put("ts", "Masukan jumlah test case");
-				put("pw", "Masukan jumlah Document");
+				put("tw", "Masukan jumlah Document");
 		}};
 		
 		Karyawan worker;
-		//new TW(name, nik, penempatan, menikah, masaKerja, lembur, tingkatJabatan, bonus);
 
 		// Nama
 		do{
