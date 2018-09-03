@@ -1,8 +1,15 @@
-
-public class PG extends Karyawan  implements UMK , TPegawai , TKeluarga , TTransport , BPJS , PPH , Lembur {
+import java.util.HashMap;
+import java.util.ArrayList;
+public class PG extends Karyawan  implements UMK , potongan, tunjangan {
 	//Variable
-	double bonus;
-
+	private double bonus , jamLembur;
+	private String tingkatKerja , statusKeluarga;
+	private int masaKerja;
+	HashMap<String , Double> tunjanganPegawai = new HashMap<String , Double>();
+	HashMap<String , ArrayList> gapok = new HashMap<String , ArrayList>();
+	ArrayList<Double> junior = new ArrayList<Double>();
+	ArrayList<Double> middle = new ArrayList<Double>();
+	ArrayList<Double> senior = new ArrayList<Double>();
 	public PG() {
 		super();
 		setTunjanganPegawai();
@@ -18,6 +25,39 @@ public class PG extends Karyawan  implements UMK , TPegawai , TKeluarga , TTrans
 		}
 		else
 			bonus = jumlahBug * 20000;
+	}
+	public String getTingkatKerja() {
+		return tingkatKerja;
+	}
+
+	public void setTingkatKerja(String tingkatKerja) {
+		this.tingkatKerja = tingkatKerja;
+	}
+
+	public int getMasaKerja() {
+		return masaKerja;
+	}
+
+	public void setMasaKerja(int masaKerja) {
+		this.masaKerja = masaKerja;
+	}
+	
+
+	public String getStatusKeluarga() {
+		return statusKeluarga;
+	}
+
+
+	public double getJamLembur() {
+		return jamLembur;
+	}
+
+	public void setJamLembur(double jamLembur) {
+		this.jamLembur = jamLembur;
+	}
+
+	public void setStatusKeluarga(String statusKeluarga) {
+		this.statusKeluarga = statusKeluarga;
 	}
 	
 	public double getUMK() {
@@ -36,45 +76,47 @@ public class PG extends Karyawan  implements UMK , TPegawai , TKeluarga , TTrans
 		}
 		return umk;
 	}
+	void setGapok() {
+		double umk = getUMK();
+		junior.add(umk);
+		junior.add(umk);
+		junior.add(umk*1.2);
+		junior.add(umk*1.2);
+		junior.add(umk*1.5);
+		middle.add(umk*1.7);
+		middle.add(umk*1.7);
+		middle.add(umk*1.7);
+		middle.add(umk*1.8);
+		middle.add(umk*1.8);
+		middle.add(umk*2.1);
+		senior.add(umk*2.5);
+		senior.add(umk*2.5);
+		senior.add(umk*2.5);
+		senior.add(umk*2.7);
+		senior.add(umk*2.7);
+		senior.add(umk*2.8);
+		gapok.put("junior", junior);
+		gapok.put("middle", middle);
+		gapok.put("senior", senior);
+	}
 	public double getGapok() {
-		double gapok = 0;
+		setGapok();
+		double gaJipok;
 		String tingkat = getTingkatKerja();
 		int masaKerja = getMasaKerja();
+		if(tingkat.equals("junior")) {
+			if(masaKerja>4) {
+				masaKerja = 4;
+			}
+		}
+		else {
+			if(masaKerja>5) {
+				masaKerja = 5;
+			}
+		}
+		gaJipok =  (double) gapok.get(tingkat).get(masaKerja);
 		
-		if(tingkat.equalsIgnoreCase("junior")) {
-			if(masaKerja > 3) {
-				gapok += getUMK()*1.5;
-			}
-			else if(masaKerja >1) {
-				gapok += getUMK()*1.2;
-			}
-			else {
-				gapok += getUMK();
-			}
-		}
-		else if(tingkat.equalsIgnoreCase("Middle")) {
-			if(masaKerja > 3) {
-				gapok += getUMK()*2.1;
-			}
-			else if(masaKerja >1) {
-				gapok += getUMK()*1.8;
-			}
-			else {
-				gapok += getUMK()*1.7;
-			}
-		}
-		else if(tingkat.equalsIgnoreCase("senior")) {
-			if(masaKerja > 3) {
-				gapok += getUMK()*2.8;
-			}
-			else if(masaKerja >1) {
-				gapok += getUMK()*2.7;
-			}
-			else {
-				gapok += getUMK()*2.5;
-			}
-		}
-		return gapok;
+		return gaJipok;
 	}
 	
 	public void setTunjanganPegawai() {
@@ -111,18 +153,18 @@ public class PG extends Karyawan  implements UMK , TPegawai , TKeluarga , TTrans
 		return getGapok()+getTunjanganPegawai()+getTunjanganKhusus()+getTunjanganKeluarga()+getBonus();
 	}
 	public double getPTKP(){
-		double ptkp = 36000000;
+		double ptkpKu = ptkp;
 		if(getStatusKeluarga().equalsIgnoreCase("y")) {
-			ptkp += 3000000;
+			ptkpKu += penambahanPtkp;
 		}
-		return ptkp;
+		return ptkpKu;
 	}
 	public double getPKP() {
-		double biayaJabatan = getGajiKotor()*0.05 , biayaPensiun , neto , netoPertahun , pkp;
-		if(biayaJabatan> 500000){
-			biayaJabatan = 500000;
+		double biayaJabatan = getGajiKotor()*biayaJabat , biayaPensiun , neto , netoPertahun , pkp;
+		if(biayaJabatan> maksimalBiayaJabatan){
+			biayaJabatan = maksimalBiayaJabatan;
 		}
-		biayaPensiun = (getGapok()+getTunjanganKeluarga())*0.0475;
+		biayaPensiun = (getGapok()+getTunjanganKeluarga())*biayaPensi;
 		neto = getGajiKotor() - (biayaJabatan+biayaPensiun);
 		netoPertahun = neto*12;
 		double pkpSementara = netoPertahun - getPTKP();
@@ -136,15 +178,41 @@ public class PG extends Karyawan  implements UMK , TPegawai , TKeluarga , TTrans
 	}
 	public double getPPH() {
 		double pph = 0;
-		if(getPKP() == 0) {
+		double pkp = getPKP();
+		if(pkp == 0) {
 			pph = 0;
 		}
 		else {
-			pph = (getPKP()*0.05)/12;
+			if(pkp >= batasPPH50) {
+				pph += (pphDibawah50*pkp)/12;
+				pkp -= batasPPH50;
+				if(pkp >= batasPPH250) {
+					pph += (pphDibawah250*pkp)/12;
+					pkp -= batasPPH250;
+					if(pkp >= batasPPH500) {
+						pph += (pphDibawah500*pkp)/12;
+						pkp -= batasPPH500;
+						if(pkp > 0) {
+							pph+= (pphDiatas500*pkp)/12;
+						}
+					}
+					else {
+						pph += (pphDibawah500*pkp)/12;
+					}
+				}
+				else {
+					pph += (pphDibawah250*pkp)/12;
+				}
+			}
+			else {
+				pph = (pphDibawah50*pkp)/12;
+			}
+			
 		}
 		return pph;
 	}
 
+	
 	public double getGajiLembur() {
 		return lemburPerjam*getJamLembur()*getGapok();
 	}
