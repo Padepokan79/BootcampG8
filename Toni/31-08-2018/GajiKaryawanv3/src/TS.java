@@ -2,11 +2,11 @@
 import java.util.HashMap;
 import java.util.Map;
 
-public class TS extends Karyawan implements Potongan, Tunjangan, Umk, Bonus, Lembur{
+public class TS extends Karyawan implements Potongan, Tunjangan, Umk, Bonus{
 	
 	int lembur, testCase;
 	public TS(String name, String nik, String penempatan, Boolean menikah, int masaKerja, int lembur, String tingkatJabatan, int testCase) {
-		super(name, nik, penempatan, menikah, masaKerja, tingkatJabatan, "Programmer");
+		super(name, nik, penempatan, menikah, masaKerja, tingkatJabatan, "tester");
 		this.lembur = lembur;
 		this.testCase = testCase;
 		
@@ -18,23 +18,23 @@ public class TS extends Karyawan implements Potongan, Tunjangan, Umk, Bonus, Lem
 		
 		tunjangan.put("Tunjangan Pegawai", round(hitungTPegawai()));
 		tunjangan.put("Tunjangan Keluarga", round(hitungTKeluarga()));
-		
+		if(penempatan.equals("jakarta"))
+			tunjangan.put("Tunjangan Transport", round(tarifTTransport));
 		
 		potongan.put("Potongan PPH", round(hitungPph()));
-		potongan.put("Pot. BPJS Kesehatan", round(hitungPph()));
-		potongan.put("Pot. BPJS Ketenagakerjaan", round(hitungPph()));
+		potongan.put("Pot. BPJS Kesehatan", round(potonganBPJS()));
+		potongan.put("Pot. BPJS Ketenagakerjaan", round(potonganBPJS()));
 		
 		gaji.put("kotor", round(gajiKotor()));
 		gaji.put("bersih", round(gajiBersih()));
 	}
 	
+	@SuppressWarnings("serial")
 	double gajiPokok() {
 		int index=masaKerja;
-		double[][] precentage = {
-			{1.1, 1.1, 1.2, 1.2, 1.5}, 
-			{1.8, 1.8, 1.8, 1.9, 1.9, 2.1},
-			{2.6, 2.6, 2.6, 2.7, 2.7, 2.8}
-		};
+		HashMap<Integer, Double> junior = new HashMap<Integer, Double>(){{ put(0, 1.1); put(1, 1.1); put(2, 1.2); put(3, 1.2); put(4, 1.5);}};
+		HashMap<Integer, Double> middle = new HashMap<Integer, Double>(){{ put(0, 1.8); put(1, 1.8); put(2, 1.8); put(3, 1.9); put(4, 1.9); put(5, 2.1);}};
+		HashMap<Integer, Double> senior = new HashMap<Integer, Double>(){{ put(0, 2.6); put(1, 2.6); put(2, 2.6); put(3, 2.7); put(4, 2.7); put(5, 2.8);}};
 		
 		if(tingkatJabatan.equals("junior") && masaKerja > 3) 
 			index = 3;
@@ -42,9 +42,9 @@ public class TS extends Karyawan implements Potongan, Tunjangan, Umk, Bonus, Lem
 			index = 4;
 		
 		switch(tingkatJabatan) {
-			case "junior" : return precentage[0][index] * tarifUmk.get(penempatan); 
-			case "middle" : return precentage[1][index] * tarifUmk.get(penempatan);
-			case "senior" : return precentage[2][index] * tarifUmk.get(penempatan);
+			case "junior" : return junior.get(index) * tarifUmk.get(penempatan); 
+			case "middle" : return middle.get(index) * tarifUmk.get(penempatan);
+			case "senior" : return senior.get(index) * tarifUmk.get(penempatan);
 			default : return 0;
 		}
 	}
@@ -73,7 +73,9 @@ public class TS extends Karyawan implements Potongan, Tunjangan, Umk, Bonus, Lem
 	}
 	
 	public double hitungBonus(){
-		return (double)(25000.0 * (testCase/100));
+		double tmp = (double)(tarifBonus.get(posisi) * (testCase/batasBonus.get(posisi)));
+		if(tmp > maxBonus) tmp = maxBonus;
+		return tmp;
 	}
 	
 	@SuppressWarnings("serial")
@@ -86,16 +88,12 @@ public class TS extends Karyawan implements Potongan, Tunjangan, Umk, Bonus, Lem
 
 	public double hitungTKeluarga() {
 		double tmp = 0.0;
-		if(menikah) tmp = 0.1 * gajiPokok();
+		if(menikah) tmp = tarifTKeluarga * gajiPokok();
 		return tmp;
 	}
 
-	public double potonganBPJSkes() {
-		return 0.01 * gajiPokok();
-	}
-
-	public double potonganBPJSket() {
-		return 0.01 * gajiPokok();
+	public double potonganBPJS() {
+		return tarifBPJS * gajiPokok();
 	}
 	
 	public double hitungPph() {
@@ -108,19 +106,19 @@ public class TS extends Karyawan implements Potongan, Tunjangan, Umk, Bonus, Lem
 
 	public double hitungPkp() {
 		double pkp = gajiKotor(), biayaJabatan, iuranPensiun;
-		biayaJabatan = 0.05 * gajiKotor();
-		iuranPensiun = 0.0475 * (gajiPokok() + hitungTKeluarga());
+		biayaJabatan = tarifBiayaJabatan * gajiKotor();
+		iuranPensiun = tarifIuranPensiun * (gajiPokok() + hitungTKeluarga());
 		if(pkp < 0) pkp = 0;
 		return ((pkp-biayaJabatan-iuranPensiun)*12)-hitungPtkp();
 	}
 	
 	public double hitungPtkp() {
-		double ptkp = 36000000.0;
-		if(menikah) ptkp += 3000000;
+		double ptkp = tarifPtkp;
+		if(menikah) ptkp += tarifPtkpKeluarga;
 		return ptkp;
 	}
 	
-	public void slip() {
+	public void slit() {
 		super.slit();
 		System.out.println("Gaji Pokok : "+gaji.get("pokok"));
 		for(Map.Entry<String, Double> tj : tunjangan.entrySet()) {

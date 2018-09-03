@@ -1,10 +1,9 @@
 
 public interface Potongan {
-	double tarifBPJSkes = 0.05, tarifBPJSket = 0.05;
-	double tarifPph = 0.05;
+	double tarifBPJS = 0.01;
+	double tarifPph = 0.05, tarifBiayaJabatan = 0.05, tarifIuranPensiun = 0.0475, tarifPtkp = 36000000, tarifPtkpKeluarga = 3000000;
 	
-	double potonganBPJSkes();
-	double potonganBPJSket();
+	double potonganBPJS();
 
 	abstract double hitungPph();
 	abstract double hitungPkp();
