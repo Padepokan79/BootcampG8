@@ -1,10 +1,11 @@
 import java.util.HashMap;
 
 public class Programmer extends Karyawan implements Umk, Tunjangan, Potongan {
-	int lamaKerja, umk, jamLembur, bonus, ptkp, tunjanganPegawai;
+	int umk, jamLembur, bonus, ptkp, tunjanganPegawai, nik, lamaKerja;
 	double indeksGapok, lembur, tunjanganKeluarga, pphTahun, tunjanganTransport, biayaJabatan, iuranPensiun, bpjs, netto, 
 	pph12, pph, nettoTahun, pkt, gajiTotal;
-	String level, divisi, keluarga;
+	String level, divisi, keluarga, nama, tempatKerja;
+	
 	HashMap<Integer, Double> programmerJunior = new HashMap<Integer, Double>();
 	HashMap<Integer, Double> programmerMiddle = new HashMap<Integer, Double>();
 	HashMap<Integer, Double> programmerSenior = new HashMap<Integer, Double>();
@@ -19,7 +20,71 @@ public class Programmer extends Karyawan implements Umk, Tunjangan, Potongan {
 		this.jamLembur = jamLembur;
 		this.bonus = bonus;
 	}
+	public String getNama() {
+		return nama;
+	}
 
+
+
+	public void setNama(String nama) {
+		this.nama = nama;
+	}	
+
+	public int getJamLembur() {
+		return jamLembur;
+	}
+	public void setJamLembur(int jamLembur) {
+		this.jamLembur = jamLembur;
+	}
+	public int getBonus() {
+		return bonus;
+	}
+	public void setBonus(int bonus) {
+		this.bonus = bonus;
+	}
+	public int getNik() {
+		return nik;
+	}
+	public void setNik(int nik) {
+		this.nik = nik;
+	}
+	public int getLamaKerja() {
+		return lamaKerja;
+	}
+	public void setLamaKerja(int lamaKerja) {
+		this.lamaKerja = lamaKerja;
+	}
+	public double getLembur() {
+		return lembur;
+	}
+	public void setLembur(double lembur) {
+		this.lembur = lembur;
+	}
+	public String getDivisi() {
+		return divisi;
+	}
+	public void setDivisi(String divisi) {
+		this.divisi = divisi;
+	}
+	public String getKeluarga() {
+		return keluarga;
+	}
+	public void setKeluarga(String keluarga) {
+		this.keluarga = keluarga;
+	}
+	public String getTempatKerja() {
+		return tempatKerja;
+	}
+	public void setTempatKerja(String tempatKerja) {
+		this.tempatKerja = tempatKerja;
+	}
+	
+	public String getLevel() {
+		return level;
+	}
+	public void setLevel(String level) {
+		this.level = level;
+	}
 	void setHashMapGapok() {
 		programmerJunior.put(0, 1.0);
 		programmerJunior.put(2, 1.2);
