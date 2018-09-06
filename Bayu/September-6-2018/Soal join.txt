@@ -1,0 +1,62 @@
+1.nama produk  jumlah produk terjual
+SELECT COUNT(`order details`.Quantity), productname
+FROM `order details`
+join products on products.ProductID = `order details`.ProductID
+group by `order details`.Quantity
+order by count(`order details`.Quantity) desc;
+
+2. tampilkan besar pembayaran dari setiap order
+-SELECT ROUND(products.UnitPrice), COUNT(products.UnitPrice)as price, productname, orders.OrderDate, orders.OrderID
+FROM `order details`
+INNER JOIN products on products.productid = `order details`.productid
+INNER JOIN orders on `order details`.OrderID = orders.OrderID
+group by products.UnitPrice
+order by count(products.UnitPrice) desc;
+
+3.tampilkan performa dari setiap karyawan
+-SELECT employees.FirstName as "Nama Karyawan", COUNT(OrderID) as "Banyak order yg ditangani"
+FROM orders
+INNER JOIN employees on orders.EmployeeID = employees.EmployeeID
+group by FirstName
+ORDER BY COUNT(OrderID) DESC;
+
+4.tampilkan banyaknya order yang dikirimkan oleh shipper
+-SELECT COUNT(ShipName) as "Banyak order yg ditangani", ShipName
+FROM orders
+group by ShipName
+ORDER BY COUNT(ShipName) DESC;
+
+5.tampilkan jumlah pemasukan dari setiap product
+-SELECT FLOOR(UnitPrice), COUNT(ProductName), ProductName
+FROM products
+group by ProductName
+ORDER BY UnitPrice DESC;
+
+6.tampilkan total uang yang di belanjakan setiap pelanggan
+-SELECT COUNT(orders.CustomerID), ROUND(`order details`.UnitPrice), customers.ContactName
+FROM orders
+join customers on customers.CustomerID = orders.CustomerID
+join `order details` on orders.OrderID = `order details`.OrderID
+GROUP BY orders.CustomerID
+order BY COUNT(orders.CustomerID) DESC;
+
+7.tampilkan banyak produk yang terjual berdasarkan kategori
+-SELECT COUNT(products.CategoryID), categories.CategoryName
+FROM products
+join categories on categories.CategoryID = products.CategoryID
+GROUP BY products.CategoryID
+order BY COUNT(products.CategoryID) DESC;
+
+8.cari nama produk yang paling banyak terjual
+-SELECT MAX(UnitsOnOrder) AS "paling banyak", ProductName
+FROM Products;
+
+9.cari nama produk yang paling sedikit terjual
+-SELECT MIN(UnitsOnOrder) AS "paling sedikit", ProductName
+FROM Products;       
+
+10.Nama pelanggan yang peling banyak menghabiskan uang dalam satu kali order
+- SELECT MAX(UnitPrice) AS "paling sedikit", customers.ContactName
+FROM orders
+JOIN customers on  customers.CustomerID = orders.CustomerID
+join `order details` on orders.OrderID = `order details`.OrderID;

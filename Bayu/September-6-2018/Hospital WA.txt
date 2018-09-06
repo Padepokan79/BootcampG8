@@ -1,0 +1,46 @@
+3. Obtain the names of all physicians that have performed a medical 
+procedure that they are certified to perform, but such that the procedure 
+was done at a date (Undergoes.Date) after the physician's certification 
+expired (Trained_In.CertificationExpires).
+
+-select physician.`Name`, undergoes.procedures, trained_in.CertificationExpires, undergoes.DateUndergoes, procedures.`Name`
+FROM physician, trained_in, undergoes, procedures
+where physician.EmployeeID = trained_in.Physician;
+
+2.Same as the previous query, but include the following information 
+in the results: Physician name, name of procedure, date when the 
+procedure was carried out, name of the patient the procedure was 
+carried out on.
+-select physician.`Name` as "Physician Name", undergoes.DateUndergoes, procedures.`Name` as "Procedures name", patient.`Name` as "Patient name"
+FROM physician, undergoes, procedures, patient
+where physician.EmployeeID = patient.SSN;
+
+4.Same as the previous query, but include the following information in the 
+results: Physician name, name of procedure, date when the procedure was 
+carried out, name of the patient the procedure was carried out on, and date 
+when the certification expired.
+-select physician.`Name` as "Physician Name", undergoes.DateUndergoes, procedures.`Name` as "Procedures name", patient.`Name` as "Patient name", trained_in.CertificationExpires
+FROM physician, undergoes, procedures, patient, trained_in
+where physician.EmployeeID = patient.SSN;
+
+5.Obtain the information for appointments where a patient met with a 
+physician other than his/her primary care physician. Show the following 
+information: Patient name, physician name, nurse name (if any), start and 
+end time of appointment, examination room, and the name of the patient's 
+primary care physician.
+-select physician.`Name` as "Physician Name",  
+patient.`Name` as "Patient name", nurse.`Name` as "Nurse name", 
+appointment.`Start`, appointment.`End`, appointment.ExaminationRoom
+FROM physician, undergoes, procedures, patient, trained_in, nurse, appointment
+where physician.EmployeeID = patient.SSN = appointment.Patient or undergoes.AssistingNurse = nurse.EmployeeID;
+
+1.Obtain the names of all physicians that have performed a 
+medical procedure they have never been certified to perform.
+-select physician.`Name` as "Physician Name"
+FROM physician, procedures, undergoes
+where physician.EmployeeID = undergoes.Physician;
+
+7.Obtain the names of all the nurses who have ever been on call for room 123.
+-select nurse.`Name` as "Nurse Name"
+FROM undergoes, nurse, stay
+where stay.Room = "123" = undergoes.stay = undergoes.AssistingNurse = nurse.EmployeeID;

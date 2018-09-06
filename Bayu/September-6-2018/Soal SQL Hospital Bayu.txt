@@ -1,0 +1,46 @@
+1.Write a query in SQL to find all the information of the nurses who are yet to be registered
+-SELECT *
+FROM nurse
+where Registered = "f";
+
+2. Write a query in SQL to find the name of the nurse who are the head of their department.
+-SELECT `Name`
+FROM nurse
+where Position = "Head nurse";
+
+3. Write a query in SQL to obtain the name of the physicians who are the head of each department
+-SELECT `Name`
+FROM physician
+where Position = "Head Chief of Medicine ";
+
+4. Write a query in SQL to count the number of patients who taken appointment with at least one physician. 
+-select COUNT(DISTINCT patient)
+from appointment;
+
+5. Write a query in SQL to find the floor and block where the room number 212 belongs to.
+-SELECT blockfloor, blockcode 
+FROM room
+WHERE roomnumber=212;
+
+6. Write a query in SQL to count the number available rooms. 
+-SELECT count(*) 
+FROM room
+WHERE unavailable= 1;
+
+7. Write a query in SQL to count the number of unavailable rooms
+-SELECT count(*) 
+FROM room
+WHERE unavailable= 0;
+
+8. Write a query in SQL to count the number of unavailable rooms.
+-SELECT count(*) 
+FROM room
+WHERE unavailable= 0;
+
+9. Write a query in SQL to obtain the name of the physicians who are trained for a special treatement.
+-SELECT physician.`Name` 
+FROM physician, trained_in
+WHERE trained_in.Physician = physician.EmployeeID;
+
+10. Write a query in SQL to obtain the name of the physicians with department who are yet to be affiliated.
+-
