@@ -1,0 +1,150 @@
+1. Write a query in SQL to find all the information of the nurses who are yet to be registered.
+
+SELECT *
+FROM nurse
+WHERE Registered = 0
+
+
+2. Write a query in SQL to find the name of the nurse who are the head of their department.
+
+SELECT *
+FROM nurse
+WHERE position = "Head Nurse"
+
+
+3. Write a query in SQL to obtain the name of the physicians who are the head of each department.
+
+SELECT physician. NAME
+FROM physician, department
+WHERE physician.employeeid = department.head
+
+
+4. Write a query in SQL to count the number of patients who taken appointment with at least one physician.
+
+SELECT count(*)
+FROM appointment
+WHERE physician > 1
+
+
+5. Write a query in SQL to find the floor and block where the room number 212 belongs to
+
+SELECT BlockFloor, BlockCode
+FROM room
+WHERE RoomNumber = 212
+
+
+6. Write a query in SQL to count the number available rooms
+
+SELECT count(*)
+FROM room
+WHERE Unavailable = "f"
+
+
+7. Write a query in SQL to count the number of unavailable rooms.
+
+SELECT count(*)
+FROM room
+WHERE Unavailable = "t"
+
+
+9. Write a query in SQL to obtain the name of the physicians who are trained for a special treatement. 
+
+SELECT physician. NAME
+FROM physician, trained_in
+WHERE physician.EmployeeID = trained_in.Physician
+
+
+10. Write a query in SQL to obtain the name of the physicians with department who are yet to be affiliated.
+
+SELECT physician.`Name`
+FROM affiliated_with, physician
+WHERE affiliated_with.Physician = physician.EmployeeID
+	AND affiliated_with.PrimaryAffiliation != 1
+
+
+11. Write a query in SQL to obtain the name of the physicians who are not a specialized physician.
+
+SELECT g*
+FROM physician
+WHERE NOT employeeid IN (
+	SELECT Physician
+	FROM trained_in
+	GROUP BY physician
+	)
+
+
+12. Write a query in SQL to obtain the name of the patients with their physicians by whom they got their preliminary treatement.
+
+SELECT patient. NAME, ( 
+	SELECT physician. NAME
+	FROM physician
+	WHERE physician.EmployeeID = appointment.Physician
+	) AS Physician
+FROM patient, appointment
+WHERE appointment.Patient = patient.SSN
+
+
+13. Write a query in SQL to find the name of the patients and the number of physicians they have taken appointment.
+
+SELECT patient. NAME, count(appointment.Physician) AS Physician
+FROM patient, appointment
+WHERE appointment.Patient = patient.SSN
+GROUP BY appointment.Patient
+
+
+14. Write a query in SQL to count number of unique patients who got an appointment for examination room C
+
+SELECT DISTINCT count(*)
+FROM appointment
+WHERE ExaminationRoom = "C"
+GROUP BY ExaminationRoom
+
+
+15 Write a query in SQL to find the name of the patients and the number of the room where they have to go for their treatment.
+
+SELECT patient.`Name`, appointment.ExaminationRoom
+FROM appointment, patient
+WHERE appointment.Patient = patient.SSN
+
+
+16. Name of the nurse and the room where they will help the phsyciant
+
+SELECT nurse. NAME, appointment.ExaminationRoom
+FROM appointment, nurse
+WHERE nurse.EmployeeID = appointment.PrepNurse
+
+
+17. Write a query in SQL to find the name of the patients who taken the appointment on the 25th of April at 10 am, and also display their physician, assisting nurses and room no.
+
+SELECT
+	patient.`Name` as "Patient",
+	appointment.ExaminationRoom as "Room",
+	nurse.`Name` as "Nurse",
+	physician.`Name` as "Physician"
+FROM appointment, patient, nurse, physician
+WHERE appointment.`Start` LIKE "____-04-25 10:00:00"
+AND (
+	appointment.Patient = patient.SSN
+	AND appointment.PrepNurse = nurse.EmployeeID
+	AND appointment.Physician = physician.EmployeeID
+)
+
+
+18 & 19. Write a query in SQL to find the name of patients and their physicians who does not require any assistance of a nurse.
+
+SELECT
+	patient.`Name` as "Patient",
+	physician.`Name` as "Physician"
+FROM
+	appointment,
+	patient,
+	physician
+WHERE
+	appointment.PrepNurse is null
+AND (
+	appointment.Patient = patient.SSN
+	AND appointment.Physician = physician.EmployeeID
+)
+
+
+20. Write a query in SQL to find the name of the patients who taken an advanced appointment, and also display their physicians and medication.

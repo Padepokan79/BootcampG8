@@ -1,0 +1,161 @@
+1. Tampilkan Nama Produk dan jumlah barang yang terjual
+
+SELECT
+	products.productName,
+	count(orderDetails.quantity) AS "Produk Terjual"
+FROM
+	orderDetails
+LEFT JOIN products ON products.productid = orderDetails.productid
+GROUP BY
+	orderDetails.productid
+ORDER BY
+	count(orderDetails.quantity) DESC
+
+	-----
+
+2. Tampil besar pembayaran dari setiap Order
+
+SELECT
+	orderdetails.orderid as "Nomor Order",
+	products.productname,
+	sum(round(products.unitprice * orderdetails.quantity)) as "Jumlah Pembayaran"
+FROM
+	orderdetails
+LEFT JOIN products ON orderdetails.productid = products.productid
+GROUP BY orderdetails.orderid
+ORDER BY orderdetails.orderid
+
+  	-----
+
+3. Tampilkan performa dari setiap karyawan
+
+SELECT
+	concat(
+		employees.FirstName,
+		" ",
+		employees.LastName
+	) AS "Nama Karyawan",
+	count(orders.OrderID) AS "Banyak Order"
+FROM
+	orders
+LEFT JOIN employees ON orders.EmployeeID = employees.EmployeeID
+GROUP BY
+	orders.EmployeeID
+ORDER BY
+	count(orders.OrderID)
+  	-----
+
+4. Tampilkan banyaknya order yang dikirimkan oleh setiap Shipper
+
+SELECT
+	ShipName AS "Nama Suplier",
+	count(OrderID) AS "Banyak Order"
+FROM
+	orders
+GROUP BY
+	ShipName
+
+	-----
+
+5. Tampilkan Jumlah pemasukan di setiap produk
+
+SELECT
+	products.ProductName AS "Nama Produk",
+	FLOOR(
+		sum(orderdetails.Quantity) * products.UnitPrice
+	) AS "Besar pemasukan"
+FROM
+	orderdetails
+LEFT JOIN products ON orderdetails.ProductID = products.ProductID
+GROUP BY
+	orderdetails.ProductID
+
+	-----
+
+6. Tampilkan total uang yang dibelanjakan setiap pelanggan
+
+SELECT
+	customers.ContactName AS "Nama Pelanggan",
+	round(
+		sum(
+			products.unitprice * orderdetails.quantity
+		)
+	) AS "Jumlah Belanja"
+FROM
+	orderdetails
+LEFT JOIN products ON orderdetails.productid = products.productid
+LEFT JOIN orders ON orders.OrderID = orderdetails.OrderID
+LEFT JOIN customers ON orders.CustomerID = customers.CustomerID
+GROUP BY
+	orders.CustomerID
+ORDER BY
+	orderdetails.orderid
+
+	-----
+
+7. Tampilkan banyak produk yang terjual berdasarkan kategori
+
+SELECT
+	categories.CategoryName as "Nama Kategory",
+	sum(orderdetails.quantity) AS "Jumlah yang Terjual"
+FROM
+	orderdetails
+LEFT JOIN products ON orderdetails.productid = products.productid
+LEFT JOIN orders ON orders.OrderID = orderdetails.OrderID
+LEFT JOIN categories ON products.CategoryID = categories.CategoryID
+GROUP BY
+	products.CategoryID
+ORDER BY
+	products.CategoryID
+
+	-----
+
+8. Cari Nama Produk yang paling banyak terjual 
+
+SELECT
+	(sum(orderdetails.quantity)) AS "Paling Laku"
+FROM
+	orderdetails
+LEFT JOIN products ON orderdetails.productid = products.productid
+LEFT JOIN orders ON orders.OrderID = orderdetails.OrderID
+LEFT JOIN categories ON products.CategoryID = categories.CategoryID
+GROUP BY
+	products.CategoryID
+ORDER BY
+	sum(orderdetails.quantity) desc
+LIMIT 1
+
+	-----
+
+9. Cari Nama Produk yang paling sedikit terjual
+
+SELECT
+	(sum(orderdetails.quantity)) AS "Paling Laku"
+FROM
+	orderdetails
+LEFT JOIN products ON orderdetails.productid = products.productid
+LEFT JOIN orders ON orders.OrderID = orderdetails.OrderID
+LEFT JOIN categories ON products.CategoryID = categories.CategoryID
+GROUP BY
+	products.CategoryID
+ORDER BY
+	sum(orderdetails.quantity) asc
+LIMIT 1
+
+	-----
+
+10. Nama pelanggan yang paling besor menghabiskan uang dalam satu kali order
+
+SELECT
+	customers.ContactName AS "Nama Pelanggan"
+FROM
+	orderdetails
+LEFT JOIN products ON orderdetails.productid = products.productid
+LEFT JOIN orders ON orders.OrderID = orderdetails.OrderID
+LEFT JOIN customers ON orders.CustomerID = customers.CustomerID
+GROUP BY
+	orderdetails.OrderID
+ORDER BY sum(products.unitprice * orderdetails.quantity) desc
+limit 1
+
+

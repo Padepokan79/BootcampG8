@@ -1,0 +1,84 @@
+Soal Whatsapp
+
+1. Obtain the names of all physicians that have performed a medical procedure they have never been certified to perform.
+
+SELECT
+	physician.`Name`
+FROM
+	undergoes
+LEFT JOIN physician ON undergoes.Physician = physician.EmployeeID
+WHERE
+	undergoes.Procedures NOT IN (
+		SELECT
+			ti.Treatment
+		FROM
+			trained_in AS ti
+		WHERE
+			ti.physician = undergoes.Physician
+	)
+
+	------
+
+2. Same as the previous query, but include the following information in the results: Physician name, name of procedure, date when the procedure was carried out, name of the patient the procedure was carried out on.
+
+SELECT
+	physician.`Name`,
+	(
+		SELECT
+			procedures.`Name`
+		FROM
+			procedures
+		WHERE
+			procedures.`Code` = undergoes.Procedures
+	) AS "Procedure Name",
+	undergoes.DateUndergoes AS "Date",
+	(
+		SELECT
+			patient.`Name`
+		FROM
+			patient
+		WHERE
+			patient.SSN = undergoes.Patient
+	) AS "Patient Name"
+FROM
+	undergoes
+LEFT JOIN physician ON undergoes.Physician = physician.EmployeeID
+WHERE
+	undergoes.Procedures NOT IN (
+		SELECT
+			ti.Treatment
+		FROM
+			trained_in AS ti
+		WHERE
+			ti.physician = undergoes.Physician
+	)
+
+	-----
+
+3. Obtain the names of all physicians that have performed a medical procedure that they are certified to perform, but such that the procedure was done at a date (Undergoes.Date) after the physician's certification expired (Trained_In.CertificationExpires).
+
+SELECT
+	physician.`Name`
+FROM
+	undergoes
+LEFT JOIN physician ON undergoes.Physician = physician.EmployeeID
+WHERE
+	undergoes.Procedures IN (
+		SELECT
+			ti.Treatment
+		FROM
+			trained_in AS ti
+		WHERE
+			ti.physician = undergoes.Physician
+		AND undergoes.DateUndergoes > (
+			SELECT
+				ti.CertificationExpires
+			FROM
+				trained_in AS ti
+			WHERE
+				ti.Physician = undergoes.Physician
+			AND ti.Treatment = undergoes.Procedures
+		)
+	)
+GROUP BY
+	physician.`Name`
