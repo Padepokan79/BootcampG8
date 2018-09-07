@@ -1,0 +1,520 @@
+	----- BASIC -----
+
+
+1. Write a query in SQL to find the number of venues for EURO cup 2016.
+
+SELECT count(*) 
+FROM soccer_venue
+
+	------
+
+2. Write a query in SQL to find the number countries participated in the EURO cup 2016.
+
+SELECT count(*)
+FROM soccer_country
+
+	------
+
+3. Write a query in SQL to find the number goals scored in EURO cup 2016 within normal play schedule.
+
+SELECT sum(*)
+FROM goal_details
+WHERE goal_schedule = "NT"
+
+	------
+
+4. Write a query in SQL to find the number of matches ended with a result. 
+
+SELECT count(match_no) 
+FROM match_mast
+WHERE result != "DRAW"
+
+	------
+
+5. Write a query in SQL to find the number of matches ended with draws.
+
+SELECT count(match_no)
+FROM match_mast
+WHERE results = "DRAW"
+
+	------
+
+6. Write a query in SQL to find the date when did Football EURO cup 2016 begin.
+
+SELECT play_date
+FROM match_mast
+ORDER BY play_date ASC
+LIMIT 1
+
+	------
+
+7. Write a query in SQL to find the number of self-goals scored in EURO cup 2016. 
+
+SELECT count(goal_type)
+FROM goal_details
+WHERE goal_type = "O"
+
+	------
+
+8. Write a query in SQL to count the number of matches ended with a results in group stage. 
+
+SELECT count(play_stage)
+FROM goal_details
+WHERE play_stage = "G"
+
+	------
+
+9. Write a query in SQL to find the number of matches got a result by penalty shootout.
+
+SELECT COUNT(DISTICT match_no) 
+FROM penalty_shotout
+
+	------
+
+10. Write a query in SQL to find the number of matches were decided on penalties in the Round of 16. 
+
+SELECT count(match_no)
+FROM match_mast
+WHERE play_stage = "R" and decided_by = "P"
+
+	------
+
+11. Write a query in SQL to find the number of goal scored in every match within normal play schedule. 
+
+SELECT match_no, count(goal_id) as goal 
+FROM goal_details
+WHERE goal_schedule = "NT"
+GROUP BY match_no
+
+	------
+
+12. Write a query in SQL to find the match no, date of play, and goal scored for that match in which no stoppage time have been added in 1st half of play. 
+
+SELECT match_no, play_date, goal_score
+FROM match_mast
+WHERE stop1_sec = 0
+
+	------
+
+13. Write a query in SQL to find the number of matches ending with a goalless draw in group stage of play.
+
+SELECT count(match_no)
+FROM match_details
+WHERE win_lose = "D" and goal_score = 0
+
+	------
+
+14. Write a query in SQL to find the number of matches ending with only one goal win except those matches which was decided by penalty shootout.
+
+SELECT count(match_no)
+FROM match_details
+WHERE and goal_score = 1 and decided_by != "P"
+
+	------
+
+16. Write a query in SQL to find the total number of players replaced in the tournament.
+
+SELECT count(player_id)
+FROM player_in_out
+WHERE in_out = "O" and play_schedule = "NT"
+
+
+
+
+	------ SUBQUERIES -----
+
+
+1. Write a query in SQL to find the teams played the first match of EURO cup 2016.
+
+SELECT (
+	SELECT country_name 
+	FROM soccer_country 
+	WHERE soccer_country.country_id = md.team_id
+) AS Team
+FROM match_details AS md 
+WHERE md.match_no = (
+	SELECT mm.match_no 
+	FROM match_mast AS mm
+	ORDER BY mm.play_date ASC
+	LIMIT 1
+)
+
+	------
+
+2. Write a query in SQL to find the winner of EURO cup 2016.
+
+SELECT (
+	SELECT country_name 
+	FROM soccer_country 
+	WHERE soccer_country.country_id = match_details.team_id
+) AS Winer
+FROM match_details
+WHERE play_stage = "F" AND win_lose = "W"
+
+	------
+
+3. Write a query in SQL to find the match with match no, play stage, goal scored, and the audence which was the heighest audence match.
+
+SELECT match_no, play_stage, goal_score, audence
+FROM match_mast
+ORDER BY audence DESC
+LIMIT 1
+
+	------
+
+4. Write a query in SQL to find the match no in which Germany played against Poland
+
+SELECT match_no
+FROM match_details AS md
+WHERE md.team_id IN (
+	SELECT country_id
+	FROM soccer_country
+	WHERE country_name in ("Germany", "Poland")
+)
+GROUP BY match_no
+having count(*) = 2
+
+	------
+
+5. Write a query in SQL to find the match no, play stage, date of match, number of gole scored, and the result of the match where Portugal played against Hungary.
+
+SELECT md.match_no, md.play_stage, mm.play_date, count(md.goal_score) as score, mm.results
+FROM match_details AS md
+LEFT JOIN match_mast as mm ON mm.match_no = md.match_no
+WHERE md.team_id in (
+	SELECT country_id
+	FROM soccer_country
+	WHERE country_name in ("Portugal", "Hungary")
+)
+GROUP BY match_no
+
+	------
+
+6. Write a query in SQL to display the list of players scored number of goals in every matches.
+
+SELECT gd.match_no, pm.player_name, sum(gd.goal_id) as goal
+FROM goal_details as gd
+LEFT JOIN player_mast as pm ON pm.player_id = gd.player_id
+GROUP BY gd.match_no
+
+	------
+
+7. Write a query in SQL to find the teams who played the heighest audence match.
+
+SELECT (
+	SELECT soccer_country.country_name
+	FROM soccer country 
+	WHERE soccer_country.country_id = md.team_id
+) as "TEAM"
+FROM match_details
+LEFT JOIN match_mast AS mm on md.match_no = mm.match_no 
+ORDER BY mm.audance DESC
+LIMIT 2
+
+	------
+
+8. Write a query in SQL to find the player who scored the last goal for Portugal against Hungary. 
+
+SELECT match_no (
+	SELECT plater_mast.player_name
+	FROM player_mast
+	WHERE player_id = (
+		SELECT goal_details.player_id
+		FROM goal_details
+		WHERE match_no = md.match_no
+		ORDER BY goal_details.goal_time DESC
+		LIMIT 1
+	) 
+)
+FROM match_details AS md
+WHERE md.team_id IN (
+	SELECT country_id
+	FROM soccer_country
+	WHERE country_name in ("Portugal", "Hungary")
+)
+GROUP BY match_no
+having count(*) = 2
+
+	------
+
+9. Write a query in SQL to find the 2nd highest stoppage time which had been added in 2nd half of play. 
+
+SELECT mm.stop2_sec
+FROM match_details as md
+LEFT JOIN match_mast as mm ON md.match_no = mm.match_no
+ORDER BY mm.stop2_sec DESC
+LIMIT 1 OFFSET 2
+
+	------
+
+10. Write a query in SQL to find the 2nd highest stoppage time which had been added in 2nd half of play.
+
+SELECT (
+	SELECT soccer_country.country_name 
+	FROM soccer_country
+	WHERE soccer_country.country_id = md.team_id
+) as Team
+FROM match_details as md
+LEFT JOIN match_mast as mm ON md.match_no = mm.match_no
+ORDER BY mm.stop2_sec DESC
+LIMIT 1 OFFSET 2
+
+	------
+
+11. Write a query in SQL to find the match no, date of play and the 2nd highest stoppage time which have been added in the 2nd half of play. 
+
+SELECT mm.match_no, mm.play_date, mm stop2_sec
+FROM match_details as md
+LEFT JOIN match_mast as mm ON md.match_no = mm.match_no
+ORDER BY mm.stop2_sec DESC
+LIMIT 2 OFFSET 2
+
+	------
+
+12. Write a query in SQL to find the team which was defeated by Portugal in EURO cup 2016 final.
+
+SELECT (
+	SELECT soccer_country.country_name 
+	FROM soccer_country
+	WHERE soccer_country.country_id = md.team_id
+) AS Team
+FROM match_details AS md
+WHERE win_lose = "L" AND play_stage = "F" and md.team_id != (
+	SELECT soccer_country.country_id 
+	FROM soccer_country
+	WHERE soccer_country.country_name = "Portugal"
+)
+
+	------
+
+13. Write a query in SQL to find the club which supplied the most number of players to the 2016 EURO cup.
+
+SELECT (
+	SELECT soccer_country.country_name 
+	FROM soccer_country
+	WHERE soccer_country.country_id = pm.team_id
+) AS Team
+FROM player_mast
+GROUP BY team_id
+ORDER_BY COUNT(*) DESC
+LIMIT 1
+
+	------
+
+14. Write a query in SQL to find the player and his jersey number Who scored the first penalty of the tournament.
+
+SELECT (
+	SELECT pm.player_name
+	FROM player_mast as pm
+	WHERE pm.player_id = gd.player_id
+	) as Name, (
+	SELECT pm.jersey_no
+	FROM player_mast as pm
+	WHERE pm.player_id = gd.player_id
+	) as "Jersey Number"
+FROM goal_details as gd 
+WHERE gd. gaol_type = "P"
+ORDER BY goal_time ASC
+LIMIT 1
+
+	------
+
+15. Write a query in SQL to find the player along with his team and jersey number who scored the first penalty of the tournament.
+
+SELECT (
+	SELECT pm.player_name
+	FROM player_mast as pm
+	WHERE pm.player_id = gd.player_id
+	) as Name, (
+	SELECT pm.jersey_no
+	FROM player_mast as pm
+	WHERE pm.player_id = gd.player_id
+	) as "Jersey Number", (
+	SELECT sc.country_name
+	FROM soccer_country as sc
+	WHERE sc.country_id = (
+		SELECT pm.team_id
+		FROM player_mast as pm
+		WHERE pm.player_id = gd.player_id
+		)
+	) as "Team"
+FROM goal_details as gd 
+WHERE gd. gaol_type = "P"
+ORDER BY goal_time ASC
+LIMIT 1
+
+
+
+
+	------ SUBQUERIES -----
+
+
+1. Write a query in SQL to find the name of the venue with city where the EURO cup 2016 final match was played.
+
+SELECT sv.venue_name, sc.city 
+FROM match_mast as mm
+LEFT JOIN soccer_venue as sv ON sv.venue_id = mm.venue_id
+LEFT JOIN soccer_city as sc on sc.city_id = sv.city_id
+WHERE mm.play_stage = "F"
+
+	------
+
+2. Write a query in SQL to find the number of goal scored by each team in every match within normal play schedule.
+
+SELECT sc.country_name, md.goal_score 
+FROM match_details AS md
+LEFT JOIN soccer_country AS sc ON  sc.country_id = md.team_id
+
+	------
+
+3. Write a query in SQL to find the total number of goals scored by each player within normal play schedule and arrange the result set according to the heighest to lowest scorer.
+
+SELECT pm.player_name, count(gd.goal_id) as Goal
+FROM goal_details as gd
+LEFT JOIN player_mast as pm ON gd.player_id = pm.player_id
+GROUP BY gd.player_id
+WHERE gd.goal_schedule = "NT"
+ORDER BY count(gd.goal_id) DESC
+
+	------
+
+4. Write a query in SQL to find the highest individual scorer in EURO cup 2016.
+
+SELECT pm.player_name, count(gd.goal_id) as Score
+FROM goal_details as gd
+LEFT JOIN player_mast as pm ON gd.player_id = pm.player_id
+GROUP BY gd.player_id
+WHERE gd.goal_schedule = "NT"
+ORDER BY count(gd.goal_id) DESC
+LIMIT 1
+
+	------
+
+5. Write a query in SQL to find the scorer of only goal along with his country and jersey number in the final of EURO cup 2016.
+
+SELECT count(gd.goal_id) AS Score, pm.player_name, pm.jersey_no, sc.country_name
+FROM goal_details AS gd
+LEFT JOIN player_mast AS pm ON gd.player_id = pm.player_id
+LEFT JOIN soccer_country AS sc ON pm.team_id = sc.country_id
+WHERE gd.match_no = (select match_no from match_mast where play_stage = "F");
+LIMIT 1
+
+	------
+
+6. Write a query in SQL to find the country where Football EURO cup 2016 held.
+
+SELECT sc.coountry_name 
+FROM soccer_venue as sv
+LEFT JOIN soccer_city as scity ON sv.city_id = scity.city_id
+LEFT JOIN soccer_country as sc ON sc.country_id = sccity.country_id
+
+	------
+
+7. Write a query in SQL to find the player who socred first goal of EURO cup 2016. 
+
+SELECT pm.player_name
+FROM goal_details as gd
+LEFT JOIN player_mast as pm ON gd.player_id = pm.player_id
+ORDER BY gd.match_no ASC, goal_time ASC
+LIMIT 1
+
+	------
+
+8. Write a query in SQL to find the name and country of the referee who managed the opening match.
+
+SELECT sc.country_name
+FROM match_mast as mm
+LEFT JOIN referee_mast as rm ON mm.referee_id = rm.referee_id
+LEFT JOIN soccer_country as sc ON rm.country_id = sc.country_id 
+
+	------
+
+9. Write a query in SQL to find the name and country of the referee who managed the final match. 
+
+SELECT sc.country_name
+FROM match_mast as mm
+LEFT JOIN referee_mast as rm ON mm.referee_id = rm.referee_id
+LEFT JOIN soccer_country as sc ON rm.country_id = sc.country_id 
+WHERE mm.play_stage = "F"
+
+	------
+
+10. Write a query in SQL to find the name and country of the referee who assisted the referee in the opening match.
+
+SELECT sc.country_name
+FROM match_details as md
+LEFT JOIN referee_mast as rm ON md.ass_ref = rm.referee_id
+LEFT JOIN soccer_country as sc ON rm.country_id = sc.country_id 
+WHERE md.match_no = 1
+
+	------
+
+11. Write a query in SQL to find the name and country of the referee who assisted the referee in the final match.
+	
+SELECT sc.country_name
+FROM match_details as md
+LEFT JOIN referee_mast as rm ON md.ass_ref = rm.referee_id
+LEFT JOIN soccer_country as sc ON rm.country_id = sc.country_id 
+WHERE md.play_stage = "F"
+
+	------
+
+12. Write a query in SQL to find the city where the opening match of EURO cup 2016 played.
+
+SELECT sc.city
+FROM match_mast as mm
+LEFT JOIN soccer_venue as sv ON mm.venue_id = sv.venue_id
+LEFT JOIN soccer_city as sc ON sv.city_id = sc.city_id
+ORDER BY mm.play_date
+LIMIT 1
+
+	------
+
+13. Write a query in SQL to find the stadium hosted the final match of EURO cup 2016 along with the capacity, and audance for that match. 
+
+SELECT sv.venue_name, mm.audence, sv.aud_capacity
+FROM match_mast as mm
+LEFT JOIN soccer_venue as sv ON mm.venue_id = sv.venue_id
+LEFT JOIN soccer_city as sc ON sv.city_id = sc.city_id
+WHERE mm.play_stage = "F"
+
+	------
+
+14. Write a query in SQL to compute a report that contain the number of matches played in each venue along with their city. 
+
+SELECT sv.venue_name, count(mm.match_no), sc.city_name
+FROM match_mast as mm
+LEFT JOIN soccer_venue as sv ON mm.venue_id = sv.venue_id
+LEFT JOIN soccer_city as sc ON sv.city_id = sc.city_id
+GROUP BY mm.venue_id
+
+	------
+
+
+
+	------
+
+
+
+	------
+
+
+
+	------
+
+
+
+	------
+
+
+
+	------
+
+
+
+	------
+
+
+
+	------
+
