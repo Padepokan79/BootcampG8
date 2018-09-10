@@ -488,33 +488,62 @@ LEFT JOIN soccer_venue as sv ON mm.venue_id = sv.venue_id
 LEFT JOIN soccer_city as sc ON sv.city_id = sc.city_id
 GROUP BY mm.venue_id
 
-	------
+	------ 
 
+15. Write a query in SQL to find the player who was the first player to be sent off at the tournament EURO cup 2016.
 
-
-	------
-
-
-
-	------
-
-
+SELECT pm.name
+FROM player_booked as pb
+LEFT JOIN player_mast as pm ON pm.player_id = pb.player_id
+ORDER BY pb.match_no ASC, pb.booking_time ASC
+LIMIT 1
 
 	------
 
+16. Write a query in SQL to find the teams that scored only one goal to the torunament.
 
-
-	------
-
-
-
-	------
-
-
+SELECT sc.country_name
+FROM soccer_team as st
+LEFT JOIN soccer_country as sc ON sc.country_id = st.team_id
+WHERE st.goal_for = 1 
 
 	------
 
+17. Write a query in SQL to find the yellow cards received by each country.
 
+SELECT sc.country_name, count(pb.sent_off) as "Yellow Card"
+FROM player_booked AS pb
+LEFT JOIN soccer_country as sc on pb.team_id = sc.team_id
+GROUP BY pb.team_id
+ORDER BY count(pb.sent_off) DESC
 
 	------
 
+18. Write a query in SQL to find the venue with number of goals that has seen.
+
+SELECT sv.venue_name, count(gd.goal_id) AS Goals
+FROM goal_details as gd
+LEFT JOIN match_mast as mm ON gd.match_no = mm.match_no
+LEFT JOIN soccer_venue as sv ON mm.venue_id = sv.venue_id
+GROUP BY mm.venue_id
+ORDER BY count(gd.goal_id) DESC
+
+	------
+
+19. Write a query in SQL to find the match where no stoppage time added in 1st half of play.
+
+SELECT match_no
+FROM match_mast
+WHERE stop1_sec = 0
+
+	------
+
+20. Write a query in SQL to find the team(s) who conceded the most goals in EURO cup 2016. 
+
+SELECT sc.country_name
+FROM soccer_team as st
+LEFT JOIN soccer_country as sc ON sc.country_id = st.team_id
+ORDER BY sc.goal_for DESC
+LIMIT 1 
+
+	------
