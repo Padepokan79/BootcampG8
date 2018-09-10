@@ -1,0 +1,129 @@
+1. Write a query in SQL to find all the information of the nurses who are yet to be registered.
+	select * 
+	from nurse;
+2. Write a query in SQL to find the name of the nurse who are the head of their department.
+	select *
+	from nurse
+	where position like "head%";	
+3. Write a query in SQL to obtain the name of the physicians who are the head of each department
+	SELECT d.name as department , p.name as head
+	from department as d , physician as p
+	where d.Head = p.EmployeeID;	
+4. 	Write a query in SQL to count the number of patients who taken appointment with at least one physician.
+	select count(patient) as jumlah 
+	from appointment;
+5. Write a query in SQL to find the floor and block where the room number 212 belongs to.
+	select blockfloor as  blok ,  blockcode as FLOOR
+	FROM room
+	WHERE roomnumber=212;
+6. Write a query in SQL to count the number available rooms.
+	select COUNT(Unavailable) as Jumlah
+	FROM room
+	WHERE Unavailable = "f";	
+7. Write a query in SQL to count the number of unavailable rooms	
+	select COUNT(Unavailable) as Jumlah
+	FROM room
+	WHERE Unavailable = "t";
+9.	Write a query in SQL to obtain the name of the physicians who are trained for a special treatement.
+	SELECT DISTINCT physician.`Name` 
+	from physician , trained_in
+	where trained_in.Physician = physician.EmployeeID;	
+10. Write a query in SQL to obtain the name of the physicians with department who are yet to be affiliated
+	SELECT DISTINCT physician.`Name` as nama , department.`Name` as departemen
+from affiliated_with , physician , department
+where affiliated_with.PrimaryAffiliation = 0 AND affiliated_with.Physician = physician.EmployeeID and affiliated_with.Department = department.DepartmentID; 
+11. Write a query in SQL to obtain the name of the physicians who are not a specialized physician
+	SELECT p.`Name`
+	from physician as p
+	where p.EmployeeID not in (SELECT trained_in.Physician FROM trained_in);
+12. Write a query in SQL to obtain the name of the patients with their physicians by whom they got their preliminary treatement
+	SELECT patient.`Name` , physician.`Name`
+FROM patient , physician , appointment
+where appointment.Patient = patient.InsuranceID or appointment.Physician = physician.EmployeeID;
+13. Write a query in SQL to find the name of the patients and the number of physicians they have taken appointment.
+		SELECT DISTINCT patient.`Name`  , COUNT(appointment.Physician)
+FROM patient,appointment
+where appointment.Patient = patient.SSN
+GROUP BY patient.`Name`
+
+14.  Write a query in SQL to count number of unique patients who got an appointment for examination room C.	
+	SELECT DISTINCT patient.`Name`
+	from appointment , patient
+	where ExaminationRoom = "c" and appointment.Patient = patient.SSN;
+15. Write a query in SQL to find the name of the patients and the number of the room where they have to go for their treatment	
+	SELECT DISTINCT patient.`Name` , appointment.ExaminationRoom
+	from appointment , patient
+	where appointment.Patient = patient.SSN
+	ORDER BY patient.`Name`;
+
+16. Write a query in SQL to find the name of the patients and the number of the room where they have to go for their treatment. 
+	SELECT patient.`Name` , appointment.ExaminationRoom
+from patient , appointment
+where appointment.Patient= patient.SSN;
+17. Write a query in SQL to find the name of the patients who taken the appointment on the 25th of April at 10 am, and also display their physician, assisting nurses and room no.
+	SELECT patient.`Name` , physician.`Name` 
+from patient , appointment , physician
+where appointment.`Start` = '2008-04-25 10:00:00' and appointment.Patient = patient.SSN and appointment.Physician = physician.EmployeeID
+
+18. Write a query in SQL to find the name of patients and their physicians who does not require any assistance of a nurse.
+
+Sample table: patient
+ SELECT patient.`Name` , physician.`Name` , appointment.ExaminationRoom
+FROM patient , physician , appointment
+WHERE appointment.PrepNurse IS NULL and appointment.Patient = patient.SSN and appointment.Physician = physician.EmployeeID;
+
+19. Write a query in SQL to find the name of patients and their physicians who does not require any assistance of a nurse.
+
+Sample table: patient
+ SELECT patient.`Name` , physician.`Name` , appointment.ExaminationRoom
+FROM patient , physician , appointment
+WHERE appointment.PrepNurse IS NULL and appointment.Patient = patient.SSN and appointment.Physician = physician.EmployeeID;
+
+
+
+-----------------------------
+
+1.obtain the names of all Phsycian that have performed a medician procedure they have never been certified to perform
+
+SELECT DISTINCT physician.`Name`
+from physician , trained_in
+where physician.EmployeeID not in (SELECT trained_in.Physician from trained_in);
+
+2.Same as the previous query, but include the following information in the results: Physician name, name of procedure, date when the procedure was carried out, name of the patient the procedure was carried out on.
+ SELECT DISTINCT physician.`Name` , procedures.`Name` , trained_in.CertificationDate 
+	from physician , trained_in , procedures 
+	where physician.EmployeeID not in (SELECT trained_in.Physician from trained_in) 
+	and trained_in.Treatment = procedures.`Code`;
+
+3.-Obtain the names of all physicians that have performed a medical procedure that they are certified to perform, but such that the procedure was done at a date (Undergoes.Date) after the physician's certification expired (Trained_In.CertificationExpires).
+	
+	SELECT DISTINCT physician.`Name`
+FROM undergoes , procedures , physician , trained_in
+WHERE undergoes.Physician = physician.EmployeeID 
+	and undergoes.Procedures = procedures.`Code` 
+		and undergoes.DateUndergoes > trained_in.CertificationExpires;	
+
+4.Same as the previous query, but include the following information in the results: Physician name, name of procedure, date when the procedure was carried out, name of the patient the procedure was carried out on, and date when the certification expired.	
+
+	SELECT DISTINCT physician.`Name` , procedures.`Name` ,trained_in.CertificationDate as tanggal , patient.`Name` ,trained_in.CertificationExpires
+FROM undergoes , procedures , physician , trained_in , patient
+WHERE undergoes.Physician = physician.EmployeeID 
+	and undergoes.Procedures = procedures.`Code` 
+		and undergoes.DateUndergoes > trained_in.CertificationExpires;		
+5.-Obtain the information for appointments where a patient met with a physician other than his/her primary care physician. Show the following information: Patient name, physician name, nurse name (if any), start and end time of appointment, examination room, and the name of the patient's primary care physician.
+
+SELECT DISTINCT patient.`Name` as Pasien, physician.`Name` as Dokter , nurse.`Name` as Suster , appointment.`Start` as mulai , appointment.`End` as berakhir , appointment.ExaminationRoom
+FROM patient , physician , appointment , nurse
+WHERE appointment.Patient = patient.SSN
+	and appointment.Physician = physician.EmployeeID
+		and appointment.PrepNurse = nurse.EmployeeID		
+
+6.The Patient field in Undergoes is redundant, since we can obtain it from the Stay table. There are no constraints in force to prevent inconsistencies between these two tables. More specifically, the Undergoes table may include a row where the patient ID does not match the one we would obtain from the Stay table through the Undergoes.Stay foreign key. Select all rows from Undergoes that exhibit this inconsistency.
+
+SELECT DISTINCT patient.`Name`
+from patient , undergoes , stay
+where patient.SSN = undergoes.Patient
+	and undergoes.Stay != stay.StayID
+
+
+
